@@ -5,6 +5,9 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+//set up the template engine
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 //setup bodyParser for fetching input from users
 const bodyParser = require('body-parser');
@@ -13,7 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 //serve the javascript and css file
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'Online_Shopping')))
+
+
+//handle routes
+const shoppingRoute = require('./routes/index');
+app.use(shoppingRoute);
+
+//handle api 
 
 
 //define the port that this app will be running on
