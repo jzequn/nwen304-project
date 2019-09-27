@@ -1,0 +1,30 @@
+{
+  "name": "nwen304-team-project",
+  "version": "1.0.0",
+  "description": "shopping website app with api and database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jzequn/nwen304-project.git"
+  },
+  "author": "AntonyHelsby& BrodyLloyd-Sanders& ZequnJiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jzequn/nwen304-project/issues"
+  },
+  "homepage": "https://github.com/jzequn/nwen304-project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mysql2": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}
