@@ -1,11 +1,12 @@
 {
-  "name": "loginsystemusingnodejs",
+  "name": "OnlineShoppingWebsite",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon start"
+    "dev": "nodemon app.js",
+    "start":"node app.js"
   },
   "author": "",
   "license": "ISC",
