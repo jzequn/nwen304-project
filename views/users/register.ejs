@@ -1,0 +1,70 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="../../public/css/main.css">
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+      <section>
+        <div class="container">
+             <h1>Register page</h1>
+        </div>
+
+        <% if( typeof errors != 'undefined') { %>
+                  <%- include('../includes/messages.ejs', {errors: errors}) %>
+        <% } %>
+
+        <div class="container">
+            <form action="/users/register" method="POST">
+              <div class="form-group">
+                  <label for="InputEmail">Username</label>
+                      <input
+                          type="text" 
+                          class="form-control" 
+                          name="Username" 
+                          id="Username" 
+                          aria-describedby="usernameHelp"
+                          placeholder="Enter username"
+                          value ="<%= typeof Username != 'undefined' ? Username : '' %>"
+                      >
+              </div>
+                <div class="form-group">
+                    <label for="InputEmail">Email address</label>
+                      <input
+                          type="email" 
+                          class="form-control" 
+                          name="InputEmail" 
+                          id="InputEmail" 
+                          aria-describedby="emailHelp" 
+                          placeholder="Enter email"
+                          value="<%= typeof InputEmail != 'undefined' ? InputEmail : '' %>"
+                      >
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input 
+                          type="password" 
+                          class="form-control"
+                          name="InputPassword" 
+                          id="InputPassword" 
+                          placeholder="Enter password"
+                          value="<%= typeof InputPassword != 'undefined' ? InputPassword : '' %>"
+                     >
+                </div>
+                <div class="form-group">
+                    <label for="repeatPassword">Repeat Password</label>
+                    <input 
+                          type="password"
+                          class="form-control"
+                          name="RepeatPassword" 
+                          id="RepeatPassword" 
+                          placeholder="Enter password"
+                          value="<%= typeof repeatPassword != 'undefined' ? repeatPassword : '' %>"
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+      </section>
+    </main>
+<%- include('../includes/end.ejs') %>

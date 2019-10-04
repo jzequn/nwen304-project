@@ -9,9 +9,9 @@
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/app.js",
+      "runtimeExecutable": "nodemon",
       "console": "integratedTerminal",
-      "restart": true,
-      "runtimeExecutable": "nodemon"
+      "restart": true
     }
   ]
 }

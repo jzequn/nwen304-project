@@ -1,0 +1,18 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="../../public/css/main.css">
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+      <section>
+        <div class="container">
+            <h1>Dashboard</h1>
+            <p>Welcome <%= name %></p>
+            <a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+        </div>
+      
+
+      </section>
+    </main>
+<%- include('../includes/end.ejs') %>

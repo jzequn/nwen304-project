@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
+<%- include('includes/head.ejs') %>
+<link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+  <body>
+    <%- include('includes/navigation.ejs') %>
     <main>
-        <h1>Shopping website</h1>
+      <div class="container">
+          <section>
+              <h1>Home page</h1>
+              <h3>Express generator</h3>
+              <p>User express generator to generator nodejs app template</p>
+              </section>
+              <section>
+              <% if( users.length > 0 ) { %>
+                    <% for (let user of users) { %>
+                          <div class="user-card">
+                              <p>username : <%= user.username %></p>
+                              <p>email : <%= user.email %></p>
+                              <p>password : <%= user.password %></p>
+                          </div>
+                    <% } %>
+              <% } else { %>
+                  <div>
+                    <p>No user found!</p>
+                  </div>
+              <% } %>
+        </section>
+    </div>
     </main>
-</body>
-</html>
+<%- include('includes/end.ejs') %>

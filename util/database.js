@@ -1,11 +1,15 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+
+// heroku postgresql connect to nodejs app 
+// don't forget to setup environment variabls with dotenv in the nodejs app 
+
+sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
     dialectOptions: {
         ssl: true
     }
-});
+})
 
 module.exports = sequelize;

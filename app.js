@@ -1,46 +1,83 @@
-// setup dotenv for environment variables 
-require('dotenv').config();
-
-// setup the server
-const express = require('express');
+require('dotenv').config()
+const express = require('express')
 const app = express();
+const path = require('path')
+// passport is authentication middleware for nodejs.
+const passport = require('passport')
 
-//set up the template engine
-app.set("view engine", "ejs");
-app.set("views", "views");
+// middleware variables
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
-//setup bodyParser for fetching input from users
-const bodyParser = require('body-parser');
-app.use(bodyParser.json())
+// a way to store user data between http request 
+const session = require('express-session')
+
+
+// the flash is a special area of session used for storing messages
+const flash = require('connect-flash')
+
+const logger = require('morgan')
+
+
+
+//set up engines 
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+
+// serve javascript files and css files
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
-//serve the javascript and css file
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'Online_Shopping')))
-
-
-//handle routes
-const shoppingRoute = require('./routes/index');
-app.use(shoppingRoute);
-
-//handle api 
+// passport config
+require('./util/passport')(passport)
 
 
-//define the port that this app will be running on
+// use middleware 
+app.use(logger('dev'))
+app.use(cookieParser())
+// express session middleware
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}))
+// passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+// connect flash 
+app.use(flash())
+//passport 
+app.use(passport.initialize())
+app.use(passport.session())
+// Global constants
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error')
+  next();
+})
+
+
+
+// routes
+const indexRoute = require('./routes/index')
+app.use(indexRoute);
+const userRoute = require('./routes/user');
+app.use(userRoute)
+
+
 const port = process.env.PORT || 3000;
-
-
-//setup remote database 
-const sequelize = require('./util/database');
-
+// connect to heroku PostgreSQL, start listening the app on port
+const sequelize = require('./util/database')
 sequelize
-    .sync()
-    .then(result => {
-        // run the server
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}.`)
-        })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+  // .sync({ force: true })
+  .sync()
+  .then(result => {
+    app.listen(port, () => {
+      console.log(`App is running on port ${port}`)
+    });
+  })
+  .catch(err => {
+    console.log(err)
+  })
