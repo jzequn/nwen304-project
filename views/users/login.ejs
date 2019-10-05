@@ -19,9 +19,9 @@
         <% } %>
 
         <!-- login fail , show login fail error message  -->
-        <% if( typeof error != '') { %>
+        <!-- <% if( typeof error != '') { %>
           <%- include('../includes/messages.ejs',{error:error}) %>
-        <% } %>
+        <% } %> -->
 
         <div class="container">
             <form action="/users/login" method="POST">
@@ -36,6 +36,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
+            <p class="lead mt-4">
+              No Account? <a href="/users/register">Register</a>
+            </p>
         </div>
 
       </section>
