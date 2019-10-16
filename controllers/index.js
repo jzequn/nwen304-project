@@ -1,6 +1,8 @@
 const User = require('../models/user.model')
+
 exports.getIndex = (req, res, next) => {
-    User.findAll()
+    res.render('shop/shop');    
+    /*User.findAll()
         .then(users => {
             // delete all the user with no username
             // users.map(user=>{
@@ -21,5 +23,13 @@ exports.getIndex = (req, res, next) => {
         })
         .catch(err => {
             console.log(err)
-        })
+        })*/
+}
+
+exports.getShopItem = (req, res, next) => {
+    res.render('shop/shop-item');
+}
+
+exports.addToCart = (req, res, next) => {
+    res.render('shop/cart');
 }
