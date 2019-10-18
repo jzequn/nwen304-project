@@ -2,6 +2,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+// const pool = require('../util/database'); // When not using Sequelize
 
 exports.getRegister = (req, res, next) => {
     res.render('users/register');
@@ -36,6 +37,7 @@ exports.postRegister = (req, res, next) => {
             RepeatPassword
         });
     } else {
+        
         User.findOne({ where: { email: InputEmail } }).then(user => {
             console.log(user)
             if (user) {
