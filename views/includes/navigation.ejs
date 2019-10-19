@@ -37,9 +37,16 @@
         </ul>
         <div div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
           <ul class="navbar-nav">
+            <form action="/shop/search" method="POST">
+                <li class="nav-item">
+                    <input type="text"  placeholder="Search.." name="search">
+                  </li>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+              
             <li class="nav-item">
                 <a class="nav-link" href="/users/logout">Logout</a>
-              </li>
+            </li>            
            </ul>
         </div>
       </div>

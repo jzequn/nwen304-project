@@ -8,6 +8,10 @@ exports.getRegister = (req, res, next) => {
     res.render('users/register');
 }
 
+// ///////////////////////////////////////////////////////////////exports.listSearch = (req, res, next) => {
+//     console.log("MADE IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+// }
+
 exports.postRegister = (req, res, next) => {
     const { Username, InputEmail, InputPassword, RepeatPassword } = req.body;
     const errors = [];

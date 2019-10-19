@@ -65,6 +65,8 @@ const indexRoute = require('./routes/index')
 app.use(indexRoute);
 const userRoute = require('./routes/user');
 app.use(userRoute)
+const shopRoute = require('./routes/shop');
+app.use(shopRoute)
 
 
 

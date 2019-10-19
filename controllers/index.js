@@ -1,7 +1,15 @@
-const User = require('../models/user.model')
+// const User = require('../models/user.model')
+const Game = require('../models/game.model')
 
 exports.getIndex = (req, res, next) => {
-    res.render('shop/shop');    
+    Game.findAll()
+        .then(games =>{            
+            res.render('shop/shop-test', {
+                games: games
+            });
+        })
+        //res.render('shop/shop-test');
+        
     /*User.findAll()
         .then(users => {
             // delete all the user with no username
