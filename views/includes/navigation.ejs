@@ -1,54 +1,59 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Game Shop</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="/"
-            >Shop <span class="sr-only">(current)</span></a
-          >
-        </li>
-      </ul>
-      <div
-        div
-        class="collapse navbar-collapse justify-content-end"
-        id="navbarNavDropdown"
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Game Shop</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
       >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <form action="/shop/search-results" method="GET">
-              <input type="text" placeholder="Search.." name="search" />
-
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+          <li class="nav-item active">
+            <a class="nav-link" href="/"
+              >Shop <span class="sr-only">(current)</span></a
+            >
           </li>
 
-          <% if(!user){ %>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/register">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/login">Login</a>
-            </li>
-          <% }else{ %>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/logout">Logout</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/cart"
+              >Cart <span class="sr-only">(current)</span></a
+            >
+          </li>
+        </ul>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            
+            <li class="nav-item">                  
+              <form action="/shop/search-results" method="GET">
+                <input type="text"  placeholder="Search.." name="search">
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </li>
 
-          <% } %>
-        </ul>
+            <% if(!user){ %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/register">Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/login">Login</a>
+                </li>
+            <% }else{ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">Hi,<%=user.username%> Logout</a>
+                </li>  
+                
+            <% } %>
+           </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-</header>
+
+    </nav>
+
+  </header>
