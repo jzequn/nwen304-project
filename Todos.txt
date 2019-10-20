@@ -1,2 +1,4 @@
+Zequn: 
+
 1. users can't logout if no login
 2. check email is registered or not before submit button is click, make submission quicker
