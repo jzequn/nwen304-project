@@ -4,6 +4,8 @@ router = express.Router();
 
 const shopController = require('../controllers/shop')
 
-router.post('/shop/search', shopController.getSearch);
+router.get('/shop/search-results', shopController.getSearch);
+router.get('/shop/shop-item', shopController.getShopItem);
+router.get('/shop/cart', shopController.addToCart);
 
 module.exports = router;

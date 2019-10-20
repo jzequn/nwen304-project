@@ -4,7 +4,7 @@ const Game = require('../models/game.model')
 exports.getIndex = (req, res, next) => {
     Game.findAll()
         .then(games =>{            
-            res.render('shop/shop-test', {
+            res.render('shop/shop', {
                 games: games
             });
         })
@@ -34,10 +34,5 @@ exports.getIndex = (req, res, next) => {
         })*/
 }
 
-exports.getShopItem = (req, res, next) => {
-    res.render('shop/shop-item');
-}
 
-exports.addToCart = (req, res, next) => {
-    res.render('shop/cart');
-}
+
