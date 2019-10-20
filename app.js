@@ -65,9 +65,23 @@ const indexRoute = require('./routes/index')
 app.use(indexRoute);
 const userRoute = require('./routes/user');
 app.use(userRoute)
+const shopRoute = require('./routes/shop');
+app.use(shopRoute)
+
+
 
 
 const port = process.env.PORT || 3000;
+
+/*app.listen(port, () => {
+  console.log(`App is running on port ${port}`)
+});*/
+// when using purse sql, uncomment in database
+// pool = require('./util/database')  (Antony 19/10)
+
+
+
+// Sequel code
 // connect to heroku PostgreSQL, start listening the app on port
 const sequelize = require('./util/database')
 sequelize

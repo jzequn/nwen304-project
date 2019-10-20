@@ -1,6 +1,16 @@
-const User = require('../models/user.model')
+// const User = require('../models/user.model')
+const Game = require('../models/game.model')
+
 exports.getIndex = (req, res, next) => {
-    User.findAll()
+    Game.findAll()
+        .then(games =>{            
+            res.render('shop/shop', {
+                games: games
+            });
+        })
+        //res.render('shop/shop-test');
+        
+    /*User.findAll()
         .then(users => {
             // delete all the user with no username
             // users.map(user=>{
@@ -21,5 +31,8 @@ exports.getIndex = (req, res, next) => {
         })
         .catch(err => {
             console.log(err)
-        })
+        })*/
 }
+
+
+
