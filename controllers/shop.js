@@ -36,8 +36,10 @@ exports.getSearch = (req, res, next) => {
 // this will go to cart page!!!
 exports.getCart = (req, res, next) => {
     //check whether user is login, if not, redirect to login page
+    req.user.createCart();
     req.user.getCart()
     .then(cart => {
+        // TypeError: Cannot read property 'getGames' of null
       return cart.getGames()
         .then(cartGames => {
           res.render("shop/cart", {
