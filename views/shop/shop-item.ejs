@@ -1,4 +1,4 @@
-<!--Built on a item template at https://startbootstrap.com/previews/-->>
+<!--Built on a item template at https://startbootstrap.com/previews/-->
 
 <%- include('../includes/head.ejs') %>
 </head>
@@ -25,20 +25,22 @@
           <div class="card mt-4">
               <img class="card-img-top img-fluid" img src= "<%='../images/' + game.title + '.jpg' %>" alt="">
               <div class="card-body">
-              <h3 class="card-title"><%= game.title%></h3>
-              <h4>$<%= game.price%></h4>
-              <p class="card-text"><%= game.description%></p>
-              <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-              4.0 stars
+                <h3 class="card-title"><%= game.title%></h3>
+                <h4>$<%= game.price%></h4>
+                <p class="card-text"><%= game.description%></p>
+                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                4.0 stars
               </div>
+
+              <form action="/shop/add-to-cart" method="POST">
+                <input type="hidden" name="game_id" value= "<%= game.game_id %>">
+                <button type="submit" class="btn btn-success">Add to Cart</button>
+              </form>
           </div>
           <!-- /.card -->
   
-          <div class="card card-outline-secondary my-4">                    
-              <a href="/shop/add-to-cart" class="btn btn-success">Add to cart</a>
-              </div>
-          </div>
-          <!-- /.card -->
+
+
   
           </div>
           <!-- /.col-lg-9 -->

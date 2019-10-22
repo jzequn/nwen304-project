@@ -24,22 +24,26 @@
     
           <div class="col-lg-9">        
             <div class="row">
-                <% for(var i=0; i<results.length; i++) {%>
-              <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">                      
-                  <a href="#"><img class="card-img-top" img src= "<%='/images/' + results[i].title + '.jpg' %>" alt=""></a>
-                  <div class="card-body">
-                    <h4 class="card-title">
-                      <a href="shop/shop-item?game_id=<%= results[i].game_id%>"><%= results[i].title %></a>
-                    </h4>
-                    <h5>$<%= results[i].price %></h5>
-                    <p class="card-text"><%= results[i].description %></p>
+               <% for(var i=0; i<results.length; i++) {%>
+                  <div class="col-lg-4 col-md-6 mb-4">
+                      <div class="card h-100">                      
+                        <a href="#"><img class="card-img-top" img src= "<%='/images/' + results[i].title + '.jpg' %>" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="shop/shop-item?game_id=<%= results[i].game_id%>"><%= results[i].title %></a>
+                              </h4>
+                              <h5>$<%= results[i].price %></h5>
+                              <p class="card-text"><%= results[i].description %></p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                      </div>
+                      <form action="/shop/add-to-cart" method="POST">
+                        <input type="hidden" name="game_id" value= "<%= results[i].game_id %>">
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                      </form>
                   </div>
-                  <div class="card-footer">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                  </div>
-                </div>
-              </div>
               <% } %>   
     
             </div>
