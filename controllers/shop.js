@@ -25,7 +25,7 @@ exports.getSearch = (req, res, next) => {
     Game.findAll({ 
         where: { 
             title: {
-                [Op.iLike]: '%' + search + '%'
+                [Op.iLike]: search
             }
         } 
     }).then(results =>{
