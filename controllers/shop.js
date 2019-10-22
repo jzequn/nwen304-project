@@ -36,36 +36,64 @@ exports.getSearch = (req, res, next) => {
 // this will go to cart page!!!
 exports.getCart = (req, res, next) => {
     //check whether user is login, if not, redirect to login page
-
-    //if login, render user's cart
-    res.render('shop/cart');
+    req.user.getCart()
+    .then(cart => {
+      return cart.getGames()
+        .then(cartGames => {
+          res.render("shop/cart", {
+            products: cartGames,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 exports.addToCart = (req, res, next) => {
     console.log('add-to-cart, req.body', req.body);
     const { game_id } = req.body;
-    // check if user is login, if yes, do add to cart. 
-            /**
-             *      find the game by id in the database. 
-                    // check whether user's cart has this game
-                    // if user's cart has this game, increase the quantity
-                    // if not, create this game in user's cart, set its quantity to 1
-                    // add game to user's cart
-            */
+    /**
+     *      find the game by id in the database. 
+            // check whether user's cart has this game
+            // if user's cart has this game, increase the quantity
+            // if not, create this game in user's cart, set its quantity to 1
+            // add game to user's cart
+    */
     // if no, redirect to login page, if login succeeded, 
-         // back to addToCart. 
-         // else redirect to login page
+    // back to addToCart. 
+    // else redirect to login page
+    let fetchedCart;
+    let newQuantity = 1;
 
-
-    console.log("req.user",req.user);
-
-    Game.findByPk(game_id)
-        .then(game => {
-            console.log("game id:" + game_id + ",game:", game)
-            res.redirect('/');
+    const user = req.user;
+    user.createCart();
+    user.getCart()
+        .then(cart => {
+            fetchedCart = cart;
+            return cart.getGames({ where: { game_id: game_id } })
         })
-        .catch(err => {
-            console.log(err)
+        .then(games=>{
+            let game;
+            if(games.length>0){
+                game = games[0];
+            }
+            if(game){
+                const oldQuantity = game.cartItem.quantity;
+                newQuantity = oldQuantity +1;
+                return game;
+            }
+            return Game.findByPk(game_id);
         })
-
+        .then(game=>{
+            return fetchedCart.addGame(game,{
+                through:{quantity:newQuantity}
+            })
+        })
+        .then(()=>{
+            res.redirect('/shop/cart');
+        })
 }

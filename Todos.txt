@@ -13,3 +13,6 @@ Zequn:
 
 
 6. Add active css style to the button when the related page is displayed.
+
+
+7. when user enter wrong password, return a message, and the email field should be filled. 
