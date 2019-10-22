@@ -56,6 +56,7 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
   res.locals.error = req.flash('error')
+  res.locals.user = req.user || null;
   next();
 })
 
@@ -68,8 +69,8 @@ const userRoute = require('./routes/user');
 app.use(userRoute)
 const shopRoute = require('./routes/shop');
 app.use(shopRoute)
-
-
+const errorNotFoundController = require('./controllers/404');
+app.use(errorNotFoundController.get404);
 
 
 const port = process.env.PORT || 3000;
@@ -80,6 +81,19 @@ const port = process.env.PORT || 3000;
 // when using purse sql, uncomment in database
 // pool = require('./util/database')  (Antony 19/10)
 
+
+
+// database association
+const Game = require('./models/game.model');
+const User = require('./models/user.model')
+const Cart = require('./models/cart.model')
+const CartItem = require('./models/cart-item.model')
+Game.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+User.hasMany(Game);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Game, { through: CartItem });
+Game.belongsToMany(Cart, { through: CartItem });
 
 
 // Sequel code

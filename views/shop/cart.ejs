@@ -1,4 +1,4 @@
-<!--Built on a cart template at https://bootsnipp.com/snippets/ZXKKD-->>
+<!-- Built on a cart template at https://bootsnipp.com/snippets/ZXKKD -->
 
 <%- include('../includes/head.ejs') %>
 </head>
@@ -28,54 +28,52 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr>
-                                      <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                                      <td>Product Name Dada</td>
-                                      <td>In stock</td>
-                                      <td><input class="form-control" type="text" value="1" /></td>
-                                      <td class="text-right">$124.90</td>
-                                      <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                                  </tr>
-                                  <tr>
-                                      <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                                      <td>Product Name Toto</td>
-                                      <td>In stock</td>
-                                      <td><input class="form-control" type="text" value="1" /></td>
-                                      <td class="text-right">$33.90</td>
-                                      <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                                  </tr>
-                                  <tr>
-                                      <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                                      <td>Product Name Titi</td>
-                                      <td>In stock</td>
-                                      <td><input class="form-control" type="text" value="1" /></td>
-                                      <td class="text-right">$70.00</td>
-                                      <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                                  </tr>
-                                  <tr>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td>Sub-Total</td>
-                                      <td class="text-right">$255.90</td>
-                                  </tr>
-                                  <tr>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td>Shipping</td>
-                                      <td class="text-right">$6.90</td>
-                                  </tr>
-                                  <tr>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td><strong>Total</strong></td>
-                                      <td class="text-right"><strong>$346.90</strong></td>
-                                  </tr>
+                                  <% if( products.length > 0){ %>
+                                    <% let total = 0 %> 
+                                        <% for( let product of products) { %>
+                                            <%  total += product.price * product.cartItem.quantity %> 
+                                            <tr>
+                                                <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                                <!-- <td><img src="/images/<%= product.title %>.jpg" /> </td> -->
+                                                <td><%= product.title %> </td>
+                                                <td>In stock</td>
+                                                <td><input class="form-control" type="text" value="<%= product.cartItem.quantity %>" /></td>
+                                                <td class="text-right">$<%= product.price %></td>
+                                                <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                                            </tr>
+                                            
+                                        <% } %>
+                                            <!-- <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Sub-Total</td>
+                                                <td class="text-right">$255.90</td>
+                                            </tr> -->
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Shipping</td>
+                                                <td class="text-right">$6.90</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><strong>Total</strong></td>
+                                                <td class="text-right"><strong>$<%= total + 6.9 %></strong></td>
+                                            </tr>
+
+                        
+                                  <% }else{  %>
+                                      <h3>No game is in your cart !</h3>
+                                      <a href="/">Go to shop</a>
+                                  <% } %>
+      
                               </tbody>
                           </table>
                       </div>

@@ -19,35 +19,37 @@
               >Shop <span class="sr-only">(current)</span></a
             >
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="/users/register">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/login">Login</a>
-          </li>
-            <div
-              class="dropdown-menu"
-              aria-labelledby="navbarDropdownMenuLink"
+            <a class="nav-link" href="/shop/cart"
+              >Cart <span class="sr-only">(current)</span></a
             >
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
           </li>
         </ul>
-        <div div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
           <ul class="navbar-nav">
             
-                <li class="nav-item">                  
-                  <form action="/shop/search-results" method="GET">
-                    <input type="text"  placeholder="Search.." name="search">
-                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+            <li class="nav-item">                  
+              <form action="/shop/search-results" method="GET">
+                <input type="text"  placeholder="Search.." name="search">
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </li>
+
+            <% if(!user){ %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/register">Register</a>
                 </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/users/logout">Logout</a>
-            </li>            
+                <li class="nav-item">
+                  <a class="nav-link" href="/users/login">Login</a>
+                </li>
+            <% }else{ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">Hi,<%=user.username%> Logout</a>
+                </li>  
+                
+            <% } %>
            </ul>
         </div>
       </div>

@@ -15,7 +15,7 @@ const userController = require('../controllers/user');
 router.get('/users/register', userController.getRegister)
 router.post('/users/register', userController.postRegister)
 router.get('/users/login', userController.getLogin)
-router.get('/users/logout', userController.getLogout)
+router.get('/users/logout', ensureAuthenticated,userController.getLogout)
 /////////////router.get('/users/search', userController.listSearch)
 
 router.post('/users/login',userController.postLogin)
