@@ -36,11 +36,16 @@ exports.getSearch = (req, res, next) => {
 // this will go to cart page!!!
 exports.getCart = (req, res, next) => {
     //check whether user is login, if not, redirect to login page
-    req.user.createCart();
+
     req.user.getCart()
     .then(cart => {
-        // TypeError: Cannot read property 'getGames' of null
-      return cart.getGames()
+        if(!cart){
+           return req.user.createCart();
+        }
+        return cart;
+    })
+    .then(cart=>{
+        return cart.getGames()
         .then(cartGames => {
           res.render("shop/cart", {
             products: cartGames,
@@ -72,8 +77,14 @@ exports.addToCart = (req, res, next) => {
     let newQuantity = 1;
 
     const user = req.user;
-    user.createCart();
+
     user.getCart()
+        .then(cart=>{
+            if(!cart){
+                return user.createCart();
+            }
+            return cart;
+        })
         .then(cart => {
             fetchedCart = cart;
             return cart.getGames({ where: { game_id: game_id } })

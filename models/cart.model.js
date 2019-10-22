@@ -7,13 +7,7 @@ const Cart = sequelize.define('cart', {
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
-    },
-    Cartname: Sequelize.STRING,
-    email: {
-        type: Sequelize.STRING,
-        unique: true
-    },
-    password: Sequelize.STRING
+    }
 })
 
 module.exports = Cart;
