@@ -39,6 +39,12 @@
                   <div class="card-footer">
                     <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                   </div>
+                  <div>
+                    <form action="/shop/add-to-cart" method="POST">
+                      <input type="hidden" name="game_id" value= "<%= games[i].game_id %>">
+                      <button type="submit">Add to Cart</button>
+                    </form>
+                  </div>
                 </div>
               </div>
               <% } %>   
