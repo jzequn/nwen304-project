@@ -25,8 +25,8 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 // serve javascript files and css files
-// app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -66,9 +66,11 @@ app.use((req, res, next) => {
 const indexRoute = require('./routes/index')
 app.use(indexRoute);
 const userRoute = require('./routes/user');
-app.use(userRoute)
+app.use(userRoute);
 const shopRoute = require('./routes/shop');
-app.use(shopRoute)
+app.use(shopRoute);
+const adminRoute = require('./routes/admin');
+app.use(adminRoute);
 const errorNotFoundController = require('./controllers/404');
 app.use(errorNotFoundController.get404);
 

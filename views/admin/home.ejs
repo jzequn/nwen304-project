@@ -1,0 +1,64 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Game Shop</title>
+    <!--<link rel="stylesheet" href="/css/main.css" type="text/css"/>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>      
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- bootstrap 4 javascript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">Game Shop</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>
+              <form action="/admin/get-user" method="GET">
+                <div class="form-group">
+                    <label for="InputUserID">Search User</label>
+                        <input
+                            type="number" 
+                            class="form-control" 
+                            name="InputUserID" 
+                            id="InputUserID"                                                         
+                            aria-describedby="emailHelp" 
+                            placeholder="Enter user ID"
+                            value ="<%= typeof InputUserID != 'undefined' ? InputUserID : '' %>"
+                        >
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+              </form>
+          </div>          
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>
