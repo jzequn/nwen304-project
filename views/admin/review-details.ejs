@@ -1,0 +1,84 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">Edit Details:</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>
+              <h2>Enter new details in the fields that you would like to change.</h2>
+              <form action="/admin/put-user-details" method="POST">
+                <div class="form-group">
+                        <!--<p><strong>Current user name: </strong> >>%= !returnedEdits && !returnedEdits[0] ? returnedEdits[0] : user.username%<<  </p>-->
+                        <p><strong>Current user name: </strong> <%= user.username%></p>
+                        <label for="InputNewUserName">New user name: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewUserName" 
+                                id="InputNewUserName"                                                         
+                                aria-describedby="newUserNameHelp" 
+                                placeholder="Enter new user name"
+                                value ="<%= typeof InputNewUserName != 'undefined' ? InputNewUserName : user.username %>"
+                            >
+                    </div>            
+                <div class="form-group">
+                        <!--<p><strong>Current user ID: </strong> >>%= !returnedEdits && !returnedEdits[1] ? returnedEdits[1] : user.id%<< </p>-->
+                        <p><strong>Current user ID: </strong> <%= user.id%></p>
+                        <label for="InputNewUserID">New user ID: </label>
+                            <input
+                                type="number" 
+                                class="form-control" 
+                                name="InputNewUserID" 
+                                id="InputNewUserID"                                                         
+                                aria-describedby="newUseridHelp" 
+                                placeholder="Enter new user ID"
+                                value ="<%= typeof InputNewUserID != 'undefined' ? InputNewUserID : user.id %>"
+                            >
+                    </div>
+                <div class="form-group">
+                        <!--<p><strong>Current user email: </strong> >>%= !returnedEdits && !returnedEdits[2] ? returnedEdits[2] : user.email%<< </p>-->
+                        <p><strong>Current user e-mail: </strong> <%= user.email %></p>
+                        <label for="InputNewUserEmail">New user email: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewUserEmail" 
+                                id="InputNewUserEmail"                                                         
+                                aria-describedby="newEmailHelp" 
+                                placeholder="Enter new user email"
+                                value ="<%= typeof InputNewUserEmail != 'undefined' ? InputNewUserEmail : user.email %>"
+                            >
+                    </div>
+                    <input type="hidden" name="CurrentUserID" value= "<%= user.id %>">
+                    <button type="submit" class="btn btn-success">Edit Details</button>
+                    <p>Please make sure these new details are correct.</p>
+                </form>
+          </div>
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>
