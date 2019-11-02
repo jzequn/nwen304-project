@@ -1,0 +1,9 @@
+1. register/ login / logout user? 
+2. user  fetch user by id? 
+         fetch user list? 
+         delete user by id? 
+         delete user list? 
+
+
+
+         

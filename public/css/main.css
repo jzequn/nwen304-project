@@ -10,3 +10,24 @@
   margin-bottom: 20px;
 }
 
+
+/* section{
+   height: 100vh;
+} */
+
+.search-button{
+  padding: 3px 2px 0 2px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: none;
+  box-sizing: border-box;
+}
+.search-button:hover,
+.search-button:active{
+   background-color: #ccc;
+}
+
+.nav-item{
+  align-items: center;
+  /* margin-top: 5px; */
+}
