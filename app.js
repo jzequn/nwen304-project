@@ -19,6 +19,10 @@ const flash = require('connect-flash')
 const logger = require('morgan')
 
 
+// setup restful api 
+// require('./api/apis')(app);
+
+app.use(require('./api/apis2'))
 
 //set up engines 
 app.set('view engine', 'ejs')
