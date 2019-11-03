@@ -19,10 +19,6 @@ const flash = require('connect-flash')
 const logger = require('morgan')
 
 
-// setup restful api 
-// require('./api/apis')(app);
-
-app.use(require('./api/apis2'))
 
 //set up engines 
 app.set('view engine', 'ejs')
@@ -33,6 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 // app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+
+// setup restful api 
+// require('./api/apis')(app); 
+app.use('/api/',require('./api/apis2'))
 
 // passport config
 require('./util/passport')(passport)
