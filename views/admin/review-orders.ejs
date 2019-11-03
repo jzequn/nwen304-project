@@ -1,0 +1,48 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4"><%=message%>.</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>              
+              <form action="/admin/edit-order" method="POST">
+                <% for(var i=0; i<orders.length; i++) {%>
+                <div>
+                    <p>Order Id: <%=orders[i].order_id%></p> 
+                    <p>User Id: <%=orders[i].user_id%></p>                    
+                    <p>Address: <%=orders[i].address%></p>
+                    <p>Date: <%=orders[i].order_date%></p>
+                    <p>Total Price: <%=orders[i].total_price%></p>
+                </div>
+                <button type="submit" class="btn btn-info">Edit Order</button>
+                <% } %>                 
+                </form>
+          </div>
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>

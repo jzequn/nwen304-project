@@ -31,7 +31,13 @@
                 <input type="hidden" name="username" value= "<%= user.username %>">
                 <input type="hidden" name="userid" value= "<%= user.id %>">
                 <input type="hidden" name="email" value= "<%= user.email %>">
-                <button type="submit" class="btn btn-success">Review and edit details</button>
+                <button type="submit" class="btn btn-info">Review and edit details</button>
+              </form>
+              <form action="/admin/review-order" method="GET">
+                <input type="hidden" name="username" value= "<%= user.username %>">
+                <input type="hidden" name="userid" value= "<%= user.id %>">
+                <input type="hidden" name="email" value= "<%= user.email %>">
+                <button type="submit" class="btn btn-info">View Orders</button>                
               </form>
           </div>
     
