@@ -1,0 +1,12 @@
+.form-container {
+  margin: 2%;
+  padding: 2%;
+}
+
+.user-card {
+  border: 1px solid #eee;
+  box-shadow: 1px 3px 3px #ccc;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+

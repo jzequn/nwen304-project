@@ -1,0 +1,69 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">Admin Page</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>
+              <form action="/admin/get-user" method="GET">
+                <div class="form-group">
+                    <label for="InputUserID">Search User</label>
+                        <input
+                            type="number" 
+                            class="form-control" 
+                            name="InputUserID" 
+                            id="InputUserID"                                                         
+                            aria-describedby="useridHelp" 
+                            placeholder="Enter user ID"
+                            value ="<%= typeof InputUserID != 'undefined' ? InputUserID : '' %>"
+                        >
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+              </form>
+          </div>
+          
+          <div>
+            <form action="/admin/get-order" method="GET">
+              <div class="form-group">
+                  <label for="InputOrderID">Search User</label>
+                      <input
+                          type="number" 
+                          class="form-control" 
+                          name="InputOrderID" 
+                          id="InputOrderID"                                                         
+                          aria-describedby="orderidHelp" 
+                          placeholder="Enter order ID"
+                          value ="<%= typeof InputOrderID != 'undefined' ? InputOrderID : '' %>"
+                      >
+              </div>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div> 
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>

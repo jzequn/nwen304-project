@@ -1,0 +1,24 @@
+Zequn: 
+
+1. Users can't logout if no login 
+    (done!)
+2. Check email is registered or not before submit button is click, make submission quicker
+
+
+3. Add business logic to Antony's cart page 
+
+4. Create api folder, and start working on restful api. 
+
+5. If Antony doesn't have time, help him with administration page and it's business logic 
+
+
+6. Add active css style to the button when the related page is displayed.
+
+
+7. when user enter wrong password, return a message, and the email field should be filled. 
+
+
+8. cart will be create each time user login, make a condition to do this. 
+    so that cart only create once!
+
+9. delete irelavant cart properties.

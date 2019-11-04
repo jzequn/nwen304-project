@@ -1,0 +1,45 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">User Details:</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>              
+              <h2><%= user.username%></h2>
+              <p><strong>User ID: </strong> <%= user.id%></p>
+              <p><strong>User e-mail: </strong> <%= user.email%></p>
+              <form action="/admin/review-user" method="GET">
+                <input type="hidden" name="username" value= "<%= user.username %>">
+                <input type="hidden" name="userid" value= "<%= user.id %>">
+                <input type="hidden" name="email" value= "<%= user.email %>">
+                <button type="submit" class="btn btn-success">Review and edit details</button>
+              </form>
+          </div>
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>
