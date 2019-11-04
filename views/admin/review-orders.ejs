@@ -11,7 +11,7 @@
     
           <div class="col-lg-3">
     
-            <h1 class="my-4">User Details:</h1>
+            <h1 class="my-4"><%=message%>.</h1>
 
             <!-- Use these categories for users, orders etc. when fully implementing-->
             <!--<div class="list-group">
@@ -22,18 +22,24 @@
     
           </div>
           <!-- /.col-lg-3 -->
-    
+          <% for(var i=0; i<orders.length; i++) {%>
           <div>              
-              <h2><%= user.username%></h2>
-              <p><strong>User ID: </strong> <%= user.id%></p>
-              <p><strong>User e-mail: </strong> <%= user.email%></p>
-              <form action="/admin/review-user" method="GET">
-                <input type="hidden" name="username" value= "<%= user.username %>">
-                <input type="hidden" name="userid" value= "<%= user.id %>">
-                <input type="hidden" name="email" value= "<%= user.email %>">
-                <button type="submit" class="btn btn-success">Review and edit details</button>
-              </form>
+              
+                
+                <div>
+                    <p>Order Id: <%=orders[i].order_id%></p> 
+                    <p>User Id: <%=orders[i].user_id%></p>                    
+                    <p>Address: <%=orders[i].deliv_addr%></p>
+                    <p>Date: <%=orders[i].order_date%></p>
+                    <p>Total Price: <%=orders[i].total_price%></p>
+                </div>
+                <form action="/admin/edit-order" method="GET">
+                <input type="hidden" name="order_id" value="<%=orders[i].order_id%>">
+                <button type="submit" class="btn btn-info">Edit Order</button>
+                <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>                              
+                </form>
           </div>
+          <% } %>  
     
         </div>
         <!-- /.row -->

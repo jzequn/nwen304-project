@@ -1,0 +1,52 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">User Details:</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+    
+          <div>              
+              <h2><%= user[0].username%></h2>
+              <p><strong>User ID: </strong> <%= user[0].id%></p>
+              <p><strong>User e-mail: </strong> <%= user[0].email%></p>
+              <form action="/admin/edit-user" method="GET">
+                <input type="hidden" name="username" value= "<%= user[0].username %>">
+                <input type="hidden" name="userid" value= "<%= user[0].id %>">
+                <input type="hidden" name="email" value= "<%= user[0].email %>">
+                <button type="submit" class="btn btn-primary">Review user details</button>
+              </form>
+              <form action="/admin/review-order" method="GET">
+                <input type="hidden" name="username" value= "<%= user[0].username %>">
+                <input type="hidden" name="userid" value= "<%= user[0].id %>">
+                <input type="hidden" name="email" value= "<%= user[0].email %>">
+                <button type="submit" class="btn btn-primary">Review user's orders</button>                
+              </form>
+              <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>
+          </div>
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>
