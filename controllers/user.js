@@ -79,7 +79,6 @@ exports.postRegister = (req, res, next) => {
             RepeatPassword
         });
     } else {
-
         User.findOne({ where: { email: InputEmail } }).then(user => {
             console.log(user)
             if (user) {
