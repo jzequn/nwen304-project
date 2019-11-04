@@ -1,5 +1,4 @@
 <%- include('../includes/head.ejs') %>
-<<<<<<< HEAD
 <script>
   function checkPasswordStrength(password) {
       
@@ -45,8 +44,6 @@
       document.getElementById("msg").style.color = color;
   }
 </script>
-=======
->>>>>>> 0cb9a746d3e5a0de4e0212343aeef4a2659169c3
 </head>
   <body>
     <%- include('../includes/navigation.ejs') %>
@@ -95,11 +92,7 @@
                           id="InputPassword" 
                           placeholder="Enter password"
                           value="<%= typeof InputPassword != 'undefined' ? InputPassword : '' %>"
-<<<<<<< HEAD
                           onkeyup="checkPasswordStrength(this.value);"/><span id="msg"></span>
-=======
-                     >
->>>>>>> 0cb9a746d3e5a0de4e0212343aeef4a2659169c3
                 </div>
                 <div class="form-group">
                     <label for="repeatPassword">Repeat Password</label>
@@ -119,8 +112,4 @@
 
       </section>
     </main>
-<<<<<<< HEAD
-
-=======
->>>>>>> 0cb9a746d3e5a0de4e0212343aeef4a2659169c3
 <%- include('../includes/end.ejs') %>
