@@ -77,7 +77,8 @@ exports.getOrderEditPage = (req, res, next) => {
     pool.query(queryText, (err, result) => {     
         const pageMessage = 'Looking at all past orders of ' + result.rows[0].username;   
         res.render('admin/review-orders', {
-            orders: result.rows
+            orders: result.rows,
+            message: pageMessage
         })
     })
     
