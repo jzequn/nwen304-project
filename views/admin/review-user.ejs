@@ -24,21 +24,22 @@
           <!-- /.col-lg-3 -->
     
           <div>              
-              <h2><%= user.username%></h2>
-              <p><strong>User ID: </strong> <%= user.id%></p>
-              <p><strong>User e-mail: </strong> <%= user.email%></p>
-              <form action="/admin/review-user" method="GET">
-                <input type="hidden" name="username" value= "<%= user.username %>">
-                <input type="hidden" name="userid" value= "<%= user.id %>">
-                <input type="hidden" name="email" value= "<%= user.email %>">
-                <button type="submit" class="btn btn-info">Review and edit details</button>
+              <h2><%= user[0].username%></h2>
+              <p><strong>User ID: </strong> <%= user[0].id%></p>
+              <p><strong>User e-mail: </strong> <%= user[0].email%></p>
+              <form action="/admin/edit-user" method="GET">
+                <input type="hidden" name="username" value= "<%= user[0].username %>">
+                <input type="hidden" name="userid" value= "<%= user[0].id %>">
+                <input type="hidden" name="email" value= "<%= user[0].email %>">
+                <button type="submit" class="btn btn-primary">Review user details</button>
               </form>
               <form action="/admin/review-order" method="GET">
-                <input type="hidden" name="username" value= "<%= user.username %>">
-                <input type="hidden" name="userid" value= "<%= user.id %>">
-                <input type="hidden" name="email" value= "<%= user.email %>">
-                <button type="submit" class="btn btn-info">View Orders</button>                
+                <input type="hidden" name="username" value= "<%= user[0].username %>">
+                <input type="hidden" name="userid" value= "<%= user[0].id %>">
+                <input type="hidden" name="email" value= "<%= user[0].email %>">
+                <button type="submit" class="btn btn-primary">Review user's orders</button>                
               </form>
+              <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>
           </div>
     
         </div>

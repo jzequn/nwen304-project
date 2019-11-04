@@ -22,21 +22,24 @@
     
           </div>
           <!-- /.col-lg-3 -->
-    
+          <% for(var i=0; i<orders.length; i++) {%>
           <div>              
-              <form action="/admin/edit-order" method="POST">
-                <% for(var i=0; i<orders.length; i++) {%>
+              
+                
                 <div>
                     <p>Order Id: <%=orders[i].order_id%></p> 
                     <p>User Id: <%=orders[i].user_id%></p>                    
-                    <p>Address: <%=orders[i].address%></p>
+                    <p>Address: <%=orders[i].deliv_addr%></p>
                     <p>Date: <%=orders[i].order_date%></p>
                     <p>Total Price: <%=orders[i].total_price%></p>
                 </div>
+                <form action="/admin/edit-order" method="GET">
+                <input type="hidden" name="order_id" value="<%=orders[i].order_id%>">
                 <button type="submit" class="btn btn-info">Edit Order</button>
-                <% } %>                 
+                <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>                              
                 </form>
           </div>
+          <% } %>  
     
         </div>
         <!-- /.row -->

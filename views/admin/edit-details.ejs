@@ -1,0 +1,126 @@
+<!--Built on a shop template at https://startbootstrap.com/previews/-->
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+    
+          <div class="col-lg-3">
+    
+            <h1 class="my-4">Edit Details:</h1>
+
+            <!-- Use these categories for users, orders etc. when fully implementing-->
+            <!--<div class="list-group">
+              <a href="#" class="list-group-item">Users</a>
+              <a href="#" class="list-group-item">Orders</a>
+              <a href="#" class="list-group-item">etc.</a>
+            </div>-->
+    
+          </div>
+          <!-- /.col-lg-3 -->
+          
+          <%if(user){%>
+          <div>
+              <h2>Enter new details in the fields that you would like to change.</h2>
+              <form action="/admin/put-user-details" method="POST">
+                <div class="form-group">
+                        <!--<p><strong>Current user name: </strong> >>%= !returnedEdits && !returnedEdits[0] ? returnedEdits[0] : user.username%<<  </p>-->                        
+                        <p><strong>Current user name: </strong> <%= user[0].username%></p>
+                        <label for="InputNewUserName">New user name: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewUserName" 
+                                id="InputNewUserName"                                                         
+                                aria-describedby="newUserNameHelp" 
+                                placeholder="Enter new user name"
+                                value ="<%= typeof InputNewUserName != 'undefined' ? InputNewUserName : user[0].username %>"                                
+                            >
+                    </div>            
+                <div class="form-group">
+                        <!--<p><strong>Current user ID: </strong> >>%= !returnedEdits && !returnedEdits[1] ? returnedEdits[1] : user.id%<< </p>-->
+                        <p><strong>Current user ID: </strong> <%= user[0].id%></p>
+                        <label for="InputNewUserID">New user ID: </label>
+                            <input
+                                type="number" 
+                                class="form-control" 
+                                name="InputNewUserID" 
+                                id="InputNewUserID"                                                         
+                                aria-describedby="newUseridHelp" 
+                                placeholder="Enter new user ID"
+                                value ="<%= typeof InputNewUserID != 'undefined' ? InputNewUserID : user[0].id %>"
+                            >
+                    </div>
+                <div class="form-group">
+                        <!--<p><strong>Current user email: </strong> >>%= !returnedEdits && !returnedEdits[2] ? returnedEdits[2] : user.email%<< </p>-->
+                        <p><strong>Current user e-mail: </strong> <%= user[0].email %></p>
+                        <label for="InputNewUserEmail">New user email: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewUserEmail" 
+                                id="InputNewUserEmail"                                                         
+                                aria-describedby="newEmailHelp" 
+                                placeholder="Enter new user email"
+                                value ="<%= typeof InputNewUserEmail != 'undefined' ? InputNewUserEmail : user[0].email %>"
+                            >
+                    </div>
+                    <input type="hidden" name="CurrentUserID" value= "<%= user[0].id %>">
+                    <button type="submit" class="btn btn-success">Edit Details</button>
+                    <p>Any changes to these fields will be updated in the order.</p>
+                </form>
+                <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>
+          </div>
+          <%} else if(order) {%>
+            <div>
+              <h2>Enter new details in the fields that you would like to change.</h2>
+              <form action="/admin/put-order-details" method="POST">
+                <div class="form-group">
+                        <!--<p><strong>Current user name: </strong> >>%= !returnedEdits && !returnedEdits[0] ? returnedEdits[0] : user.username%<<  </p>-->                        
+                        <p><strong>Current order address: </strong> <%= order[0].deliv_addr%></p>
+                        <label for="InputNewAddress">New address: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewAddress" 
+                                id="InputNewAddress"                                                         
+                                aria-describedby="newAddressHelp" 
+                                placeholder="Enter new address"
+                                value ="<%= typeof InputNewAddress != 'undefined' ? InputNewAddress : order[0].deliv_addr %>"                                
+                            >
+                    </div>            
+                <div class="form-group">
+                        <!--<p><strong>Current user email: </strong> >>%= !returnedEdits && !returnedEdits[2] ? returnedEdits[2] : user.email%<< </p>-->
+                        <p><strong>Current total price: </strong> <%= order[0].total_price %></p>
+                        <label for="InputNewTotalPrice">New total price: </label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="InputNewTotalPrice" 
+                                id="InputNewTotalPrice"                                                         
+                                aria-describedby="newTotalPriceHelp" 
+                                placeholder="Enter new total price"
+                                value ="<%= typeof InputNewTotalPrice != 'undefined' ? InputNewTotalPrice : order[0].total_price %>"
+                            >
+                    </div>
+                    <input type="hidden" name="CurrentOrderID" value= "<%= order[0].order_id %>">
+                    <button type="submit" class="btn btn-success">Edit Details</button>                                        
+                    <p>Any changes to these fields will be updated in the order.</p>
+                </form>
+                <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>
+          </div>
+          <%}%>
+          
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>
