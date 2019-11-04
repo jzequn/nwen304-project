@@ -10,12 +10,14 @@ exports.getGames = (req, res, next) => {
                 res.status(404).json({
                     message: 'No games found!'
                 })
-                next()
+                // next()
+            }else{
+                res.status(200).json({
+                    message: 'Fetch game list successfully',
+                    games: games
+                })
             }
-            res.status(200).json({
-                message: 'Fetch game list successfully',
-                games: games
-            })
+
         })
         .catch(err => {
             res.status(500).json({
@@ -33,17 +35,22 @@ exports.getGameById = (req, res, next) => {
     Game.findByPk(gameId)
         .then(game => {
             if (!game) {
+                // console.log('no games found!')
                 res.status(404).json({
                     message: 'No game found!'
                 })
-                next()
+                // next()
+            }else{
+                // console.log('found one game!')
+                res.status(200).json({
+                    message: 'Fetch game successfully',
+                    game: game
+                })
             }
-            res.status(200).json({
-                message: 'Fetch game successfully',
-                game: game
-            })
+
         })
         .catch(err => {
+            // console.log('500 error!')
             res.status(500).json({
                 message: 'Fetch game fail!',
             })
@@ -94,10 +101,12 @@ exports.deleteGameById = (req, res, next) => {
                 res.status(404).json({
                     message: 'No game found!'
                 })
-                next()
+                // next()
+            }else{
+                game = game;
+                return game.destroy();
             }
-            game = game;
-            return game.destroy();
+
         })
         .then(result => {
             res.status(200).json({
