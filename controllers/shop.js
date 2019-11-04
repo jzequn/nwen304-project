@@ -6,6 +6,7 @@ exports.getIndex = (req, res, next) => {
     res.render('index');
 }
 
+// Author of getShopItem: Antony Helsby
 exports.getShopItem = (req, res, next) => {
     Game.findOne({ where: { game_id: req.param('game_id') } }).then(theGame => {
         res.render('shop/shop-item', {
@@ -14,6 +15,7 @@ exports.getShopItem = (req, res, next) => {
     })
 }
 
+// Author of getSearch: Antony Helsby
 exports.getSearch = (req, res, next) => {
     const Op = Sequelize.Op;
     let search = req.param('search');

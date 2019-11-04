@@ -1,5 +1,5 @@
-const User = require('../models/user.model');
-const Order = require('../models/order.model');
+// Author: Antony Helsby
+
 require('body-parser');
 
 pool = require('../util/postgres');
@@ -23,15 +23,6 @@ exports.getUserByID = (req, res, next) => {
             message: pageMessage
         })
     })
-    /*User.findOne({where: {id: InputUserID} })
-        .then(user=>{
-            res.render('admin/search-results', 
-            {
-                user:user
-            })
-    }).catch(err => {
-        console.log(err);
-    })*/
 }
 
 // show one order
