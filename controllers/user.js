@@ -21,9 +21,50 @@ exports.postRegister = (req, res, next) => {
         errors.push({ msg: 'Passwords do not match' });
     }
 
-    if (InputPassword.length < 6) {
-        errors.push({ msg: 'Password must be at least 6 characters' });
+    if (InputPassword.length > 0) {
+
+        // Create an array and push all possible values that you want in password
+        var matchedCase = new Array();
+        matchedCase.push("[$@$!%*#?&]"); // Special Charector
+        matchedCase.push("[A-Z]");      // Uppercase Alpabates
+        matchedCase.push("[0-9]");      // Numbers
+        matchedCase.push("[a-z]");     // Lowercase Alphabates
+
+        console.log("test")
+
+        // Check the conditions
+        var ctr = 0;
+        for (var i = 0; i < matchedCase.length; i++) {
+            if (new RegExp(matchedCase[i]).test(InputPassword)) {
+                ctr++;
+            }
+        }
+        // Display it
+        var color = "";
+        var strength = "";
+        switch (ctr) {
+            case 0:
+            case 1:
+            case 2:
+                strength = "Very Weak";
+                color = "red";
+                break;
+            case 3:
+                strength = "Medium";
+                color = "orange";
+                break;
+            case 4:
+                strength = "Strong";
+                color = "green";
+                break;
+        }
+        if (InputPassword.length < 9) {
+            errors.push({ msg: 'Password must contain at least 8 characters' });
+        } else if (strength === "" || strength === "Very Weak") {
+            errors.push({ msg: 'Password is Too Weak' });
+        }
     }
+
 
     if (errors.length > 0) {
         console.log('errors.length> 0')
@@ -38,7 +79,6 @@ exports.postRegister = (req, res, next) => {
             RepeatPassword
         });
     } else {
-        
         User.findOne({ where: { email: InputEmail } }).then(user => {
             console.log(user)
             if (user) {
@@ -84,8 +124,8 @@ exports.postRegister = (req, res, next) => {
             }
         });
     }
-}
 
+}
 exports.getLogin = (req, res, next) => {
     res.render('users/login');
 }

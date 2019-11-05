@@ -15,7 +15,15 @@ const User = sequelize.define('user', {
         type: Sequelize.STRING,
         unique: true,
     },
-    password: Sequelize.STRING
+    password: Sequelize.STRING,
+    fb_id:{
+        type: Sequelize.DECIMAL,
+        unique: true
+    },
+    google_id:{
+        type: Sequelize.DECIMAL,
+        unique: true
+    }
 })
 
 module.exports = User;

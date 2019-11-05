@@ -30,6 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+
+// setup restful api 
+// require('./api/apis')(app); 
+app.use('/api/',require('./api/apis2'))
+
 // passport config
 require('./util/passport')(passport)
 
