@@ -3,7 +3,7 @@ const Game = require('../../models/game.model')
 /**
  * Get the game list from postgreSQL database
  */
-exports.getGames = (req, res, next) => {
+exports.getGames = (req, res, next) => {    
     Game.findAll()
         .then(games => {
             if (!games) {

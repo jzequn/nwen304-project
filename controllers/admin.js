@@ -27,7 +27,17 @@ exports.getUserByID = (req, res, next) => {
 
 // show one order
 exports.getOrderByID = (req, res, next) => {
-    const { InputOrderID } = req.query;
+    const message = '';
+    this.getOrderByID().then(result =>{
+        if(!result){
+            message = "Couldn't find any orders."
+        }
+        res.render('admin/review-orders', {
+            orders: result.rows,
+            message: message
+        })
+    })
+    /*const { InputOrderID } = req.query;
     const queryText = 
     `SELECT
     u.username, 
@@ -50,7 +60,7 @@ exports.getOrderByID = (req, res, next) => {
             orders: result.rows,
             message: pageMessage
         })
-    })
+    })*/
 }
 
 // shows list of orders
