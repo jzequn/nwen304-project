@@ -1,7 +1,12 @@
+/**
+ * Module: game route (restful api)
+ * Author: Zequn Jiang
+ */
 const Game = require('../../models/game.model')
 
 /**
  * Get the game list from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.getGames = (req, res, next) => {
     Game.findAll()
@@ -29,6 +34,7 @@ exports.getGames = (req, res, next) => {
 
 /**
  * Get a game by primary key - id, from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.getGameById = (req, res, next) => {
     const gameId = req.params.gameId;
@@ -61,6 +67,7 @@ exports.getGameById = (req, res, next) => {
 
 /**
  * Post one game to postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.postOneGame = (req, res, next) => {
 
@@ -91,6 +98,7 @@ exports.postOneGame = (req, res, next) => {
 
 /**
  * Delete game by primary key - id, from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.deleteGameById = (req, res, next) => {
     const gameId = req.params.gameId;
@@ -123,6 +131,7 @@ exports.deleteGameById = (req, res, next) => {
 
 /**
  * Edit game by id to postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.putGameById = (req, res, next) => {
     const { gameId } = req.params;

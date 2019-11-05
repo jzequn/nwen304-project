@@ -1,14 +1,38 @@
+/**
+ * Author: Zequn Jiang
+ * import passport, bcrypt, user model, express-validator
+ */
 const { check, validationResult } = require('express-validator');
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // const pool = require('../util/database'); // When not using Sequelize
 
+/**
+ * Author: Zequn Jiang
+ * Render register page on browser
+ */
 exports.getRegister = (req, res, next) => {
     res.render('users/register');
 }
 
-
+/**
+ * Author: Zequn Jiang 
+ * Co-author: Brody-Lloyd-Sanders (Done the password complexity handling)
+ *
+ * About this method: 
+ * Register user locally. 
+ * Hash with user password before storing user info into postgreSQL database.
+ * 
+ * Brody's work starting from line 40 to line 78, which is from: 
+ *          if (InputPassword.length > 0) {
+ *                  ......
+ * to: 
+ *          } else if (strength === "" || strength === "Very Weak") {
+ *                errors.push({ msg: 'Password is Too Weak' });
+ *          }
+ *        }         
+ */
 exports.postRegister = (req, res, next) => {
     const { Username, InputEmail, InputPassword, RepeatPassword } = req.body;
     const errors = [];
@@ -22,16 +46,12 @@ exports.postRegister = (req, res, next) => {
     }
 
     if (InputPassword.length > 0) {
-
         // Create an array and push all possible values that you want in password
         var matchedCase = new Array();
         matchedCase.push("[$@$!%*#?&]"); // Special Charector
         matchedCase.push("[A-Z]");      // Uppercase Alpabates
         matchedCase.push("[0-9]");      // Numbers
         matchedCase.push("[a-z]");     // Lowercase Alphabates
-
-        console.log("test")
-
         // Check the conditions
         var ctr = 0;
         for (var i = 0; i < matchedCase.length; i++) {
@@ -65,11 +85,10 @@ exports.postRegister = (req, res, next) => {
         }
     }
 
-
     if (errors.length > 0) {
-        console.log('errors.length> 0')
+        // console.log('errors.length> 0')
         errors.map(err => {
-            console.log("err msg - ", err.msg)
+            // console.log("err msg - ", err.msg)
         })
         res.render('users/register', {
             errors,
@@ -92,13 +111,11 @@ exports.postRegister = (req, res, next) => {
                     RepeatPassword
                 });
             } else {
-
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(InputPassword, salt, (err, hash) => {
                         if (err) throw err;
                         // console.log('hash:', hash, 'InputPassword:', InputPassword)
                         // InputPassword = hash;
-
 
                         User.create({
                             username: Username,
@@ -112,9 +129,6 @@ exports.postRegister = (req, res, next) => {
                                 );
                                 // console.log('user msg:', req.flash.success_msg)
                                 res.redirect('/users/login');
-
-                                // console.log('create user', result)
-                                // res.redirect('/');
                             })
                             .catch(err => {
                                 console.log(err)
@@ -126,10 +140,19 @@ exports.postRegister = (req, res, next) => {
     }
 
 }
+
+/**
+ * Author: Zequn Jiang
+ * Render login page
+ */
 exports.getLogin = (req, res, next) => {
     res.render('users/login');
 }
 
+/**
+ * Author: Zequn Jiang
+ * Login with passport-local strategy
+ */
 exports.postLogin = (req, res, next) => {
     // console.log('users controller postLogin - post login')
     passport.authenticate('local', {
@@ -139,14 +162,21 @@ exports.postLogin = (req, res, next) => {
     })(req, res, next)
 }
 
+/**
+ * Author: Zequn Jiang
+ * logout with passport.js
+ */
 exports.getLogout = (req, res, next) => {
     req.logout();
     req.flash('success_msg', 'You are logged out!')
-    // res.render('users/logout');
     res.redirect('/users/login')
 }
 
 
+/**
+ * Author: Zequn Jiang
+ * Render dashboard
+ */
 exports.getDashboard = (req, res, next) => {
     res.render('users/dashboard', {
         name: req.user.username

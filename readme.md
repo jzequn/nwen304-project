@@ -21,11 +21,11 @@
     curl --data "title=test&price=55.55&description=test&num_in_stock=3" http://localhost:3000/api/game
 
     // delete
-    curl -X DELETE http://localhost:3000/api/game/12
+    curl -X DELETE http://localhost:3000/api/game/1
 
 
     //get one game by id
-    curl http://localhost:3000/api/game/12
+    curl http://localhost:3000/api/game/1
 
 
     curl -X PUT -d "title=test123&price=12&description=you win" http://localhost:3000/api/game/6
