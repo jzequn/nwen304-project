@@ -1,0 +1,59 @@
+<!-- Built on a shop template at https://startbootstrap.com/previews/ -->
+
+<%- include('../includes/head.ejs') %>
+</head>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>        
+      <!-- Page Content -->
+      <div class="container">
+    
+        <div class="row">
+          <!-- /.col-lg-3 -->
+    
+          <div class="col-lg-9">
+              <form action="/shop/get-advanced-search">
+                    <div class="form-group">
+                            <label for="sel1">Select genre:</label>
+                            <select class="form-control" id="sel1" name="genre">
+                              <option value="adventure">Adventure</option>
+                              <option value="action">Action</option>
+                              <option value="action-adventure">Action-Adventure</option>
+                              <option value="strategy">Strategy</option>
+                              <option value="fps">FPS</option>
+                              <option value="mmo">MMO</option>
+                              <option value="puzzle">Puzzle</option>
+                            </select>
+
+                            <label for="sel2">Select players:</label>
+                            <select class="form-control" id="sel2" name="player">
+                              <option value="one player">One player</option>
+                              <option value="two player">Two players</option>
+                              <option value="multiplayer">Multiplayer</option>                              
+                            </select>
+
+                            <label for="sel3">Platform</label>
+                            <select class="form-control" id="sel3" name="platform">
+                              <option value="PC">PC</option>
+                              <option value="console">Console</option>
+                            </select>                            
+                            <div class="checkbox">
+                                    <label><input type="checkbox" name="requireAllSelections" value="">Search must contain all these details</label>
+                            </div>
+                    </div>                                      
+                    <button type="submit" class="btn btn-success">Search some of these</button>                    
+              </form>
+                      
+            
+    
+          </div>
+          <!-- /.col-lg-9 -->
+    
+        </div>
+        <!-- /.row -->
+    
+      </div>
+      <!-- /.container -->
+          
+    </main>
+<%- include('../includes/end.ejs') %>

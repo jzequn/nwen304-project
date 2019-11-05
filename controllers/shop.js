@@ -1,6 +1,7 @@
 const path = require('path');
 const Game = require('../models/game.model');
 Sequelize = require('sequelize');
+pool = require ('../util/postgres');
 
 exports.getIndex = (req, res, next) => {
     res.render('index');
@@ -34,6 +35,43 @@ exports.getSearch = (req, res, next) => {
         })
     })
 }
+
+exports.getAdvancedSearchPage = (req, res, next) => {
+    res.render('shop/advanced-search');
+}
+
+exports.getAdvancedSearchResults = (req, res, next) => {    
+    const {genre, player, platform, requireAllSelections} = req.query
+    let queryText = '';    
+    console.log("box is: " + requireAllSelections);
+    if(requireAllSelections == undefined){
+            queryText = 
+        `SELECT * 
+        FROM games 
+        WHERE genre ='` + genre + 
+        `' OR players='` + player + 
+        `' OR platform='` + platform + 
+        `'`;    
+    } else {
+        queryText = 
+    `SELECT * 
+    FROM games 
+    WHERE genre ='` + genre + 
+    `' AND players='` + player + 
+    `' AND platform='` + platform + 
+    `'`;
+    } 
+
+    pool.query(queryText, (err, result) => {        
+        if(err){
+            return console.error('error in getAdvancedSearchResults', err)
+        }            
+        res.render('shop/search-results', {
+            results: result.rows,
+        })
+    })
+}
+
 
 // this will go to cart page!!!
 exports.getCart = (req, res, next) => {

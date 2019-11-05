@@ -13,7 +13,7 @@ exports.getAdmin = (req, res, next) => {
 exports.getUserByID = (req, res, next) => {
     const { InputUserID } = req.query;
     const queryText = 'SELECT * FROM users WHERE id=' + InputUserID;
-    pool.query(queryText, (err, result) => {
+    pool.query(queryText, (err, result) => {        
         if(err){
             return console.error('error in getUserByID', err)
         }    
