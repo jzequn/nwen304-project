@@ -14,23 +14,30 @@
     
             <h1 class="my-4">Shop Name</h1>
             <div class="list-group">
-              <a href="#" class="list-group-item">Category 1</a>
-              <a href="#" class="list-group-item">Category 2</a>
-              <a href="#" class="list-group-item">Category 3</a>
+                <a href="/shop/get-games-of-genre/:adventure" class="list-group-item">Adventure</a>
+                <a href="/shop/get-games-of-genre/:action" class="list-group-item" value="action">Action</a>
+                <a href="/shop/get-games-of-genre/:action-adventure" class="list-group-item" value="action-adventure">Action-Adventure</a>
+                <a href="/shop/get-games-of-genre/:strategy" class="list-group-item" value="strategy">Strategy</a>
+                <a href="/shop/get-games-of-genre/:fps" class="list-group-item" value="fps">FPS</a>
+                <a href="/shop/get-games-of-genre/:rpg" class="list-group-item" value="rpg">RPG</a>
+                <a href="/shop/get-games-of-genre/:mmo" class="list-group-item" value="mmo">MMO</a>
+                <a href="/shop/get-games-of-genre/:moba" class="list-group-item" value="mmo">MOBA</a>
+                <a href="/shop/get-games-of-genre/:puzzle" class="list-group-item" value="puzzle">Puzzle</a>
             </div>
     
           </div>
           <!-- /.col-lg-3 -->
     
+          
           <div class="col-lg-9">        
             <div class="row">
                <% for(var i=0; i<results.length; i++) {%>
                   <div class="col-lg-4 col-md-6 mb-4">
                       <div class="card h-100">                      
-                        <a href="#"><img class="card-img-top" img src= "<%='/images/' + results[i].title + '.jpg' %>" alt=""></a>
+                          <a href="../../shop/shop-item?game_id=<%= results[i].game_id%>"><img class="card-img-top" img src= "<%='/images/' + results[i].title + '.jpg' %>" alt=""></a>
                             <div class="card-body">
                               <h4 class="card-title">
-                                <a href="shop/shop-item?game_id=<%= results[i].game_id%>"><%= results[i].title %></a>
+                                <a href="../../shop/shop-item?game_id=<%= results[i].game_id%>"><%= results[i].title %></a>
                               </h4>
                               <h5>$<%= results[i].price %></h5>
                               <p class="card-text"><%= results[i].description %></p>

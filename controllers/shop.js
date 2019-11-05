@@ -9,10 +9,16 @@ exports.getIndex = (req, res, next) => {
 
 // Author of getShopItem: Antony Helsby
 exports.getShopItem = (req, res, next) => {
-    Game.findOne({ where: { game_id: req.param('game_id') } }).then(theGame => {
+    
+    queryText = 'SELECT * FROM games WHERE game_id=' + req.param('game_id');    
+    console.log(req.param('game_id'));
+    pool.query(queryText, (err, result) => {        
+        if(err){
+            return console.error('error in getGamesByGenre', err)
+        }            
         res.render('shop/shop-item', {
-            game: theGame
-        });
+            game: result.rows,
+        })
     })
 }
 
@@ -32,6 +38,21 @@ exports.getSearch = (req, res, next) => {
         console.log(results)
         res.render('shop/search-results', {
             results: results
+        })
+    })
+}
+
+// Author of getGamesByGenre: Antony Helsby
+exports.getGamesByGenre = (req, res, next) => {
+    let genre = req.params.genre
+    queryText = "SELECT * FROM games WHERE genre = '" + genre + "'";    
+    
+    pool.query(queryText, (err, result) => {        
+        if(err){
+            return console.error('error in getGamesByGenre', err)
+        }            
+        res.render('shop/search-results', {
+            results: result.rows,
         })
     })
 }
