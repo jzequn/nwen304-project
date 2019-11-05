@@ -8,7 +8,7 @@
 
 // Antony's work on using without Sequelize
 const{Pool, Client} = require('pg')
-const connectionString = "postgres://fxnaccwfwmhrvr:c896d777af39a82546f0520986908945d1376a8bb506a7ec3f00b015ac16caaf@ec2-54-235-92-244.compute-1.amazonaws.com:5432/dej52ufjgas7g6"
+const connectionString = process.env.DATABASE_URL
 
 const pool = new Client({    
     connectionString:connectionString,
