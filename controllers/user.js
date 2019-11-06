@@ -99,7 +99,7 @@ exports.postRegister = (req, res, next) => {
         });
     } else {
         User.findOne({ where: { email: InputEmail } }).then(user => {
-            console.log(user)
+            //console.log(user)
             if (user) {
                 errors.push({ msg: 'Email already exists' });
                 // console.log("Email already exists", console.log(user.email, 'inputEmail', InputEmail, 'InputPassword', InputPassword))

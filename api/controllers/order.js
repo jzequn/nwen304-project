@@ -69,8 +69,7 @@ exports.postOneOrder = (req, res, next) => {
     orders(user_id, order_date, total_price, deliv_addr) 
     VALUES(` + user_id + `, '` + order_date + `', ` + total_price + `, '` + deliv_addr + `');`
     pool.query(queryText, (err, result) => {
-        if(err){
-            console.error('error in getOrderByID', err)
+        if(err){            
             res.status(500).json({
                 message: 'Failed to post order',
             })

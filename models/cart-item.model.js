@@ -13,8 +13,12 @@ const CartItem = sequelize.define('cartItem', {
         primaryKey: true
     },
     quantity: Sequelize.INTEGER
+<<<<<<< HEAD
 },
 {
+=======
+}, {
+>>>>>>> Antony
     timestamps: false
 })
 module.exports = CartItem;

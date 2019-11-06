@@ -3,26 +3,11 @@
 </head>
   <body>
     <%- include('../includes/navigation.ejs') %>
-    <main>        
+    <main>
+        <h1 class="my-4"><%=message%></h1>        
       <!-- Page Content -->
-      <div class="container">
-    
-        <div class="row">
-    
-          <div class="col-lg-3">
-    
-            <h1 class="my-4">User Details:</h1>
-
-            <!-- Use these categories for users, orders etc. when fully implementing-->
-            <!--<div class="list-group">
-              <a href="#" class="list-group-item">Users</a>
-              <a href="#" class="list-group-item">Orders</a>
-              <a href="#" class="list-group-item">etc.</a>
-            </div>-->
-    
-          </div>
-          <!-- /.col-lg-3 -->
-    
+      <div class="container">                                    
+          <%if(user.length>0){%>
           <div>              
               <h2><%= user[0].username%></h2>
               <p><strong>User ID: </strong> <%= user[0].id%></p>
@@ -41,10 +26,11 @@
               </form>
               <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>
           </div>
-    
-        </div>
-        <!-- /.row -->
-    
+          <% } %>
+
+        <%if(user.length<1){%>
+            <a class="button btn btn-info" href="/admin/home">Back to Admin Home</a>   
+        <% } %>
       </div>
       <!-- /.container -->
           

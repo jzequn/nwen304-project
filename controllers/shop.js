@@ -18,8 +18,7 @@ exports.getIndex = (req, res, next) => {
 // Author of getShopItem: Antony Helsby
 exports.getShopItem = (req, res, next) => {
     
-    queryText = 'SELECT * FROM games WHERE game_id=' + req.param('game_id');    
-    console.log(req.param('game_id'));
+    queryText = 'SELECT * FROM games WHERE game_id=' + req.param('game_id');        
     pool.query(queryText, (err, result) => {        
         if(err){
             return console.error('error in getGamesByGenre', err)
@@ -34,16 +33,14 @@ exports.getShopItem = (req, res, next) => {
 exports.getSearch = (req, res, next) => {
     const Op = Sequelize.Op;
     let search = req.param('search');
-    search = '%' + search + '%';
-    console.log(req.param('search'));
+    search = '%' + search + '%';    
     Game.findAll({
         where: {
             title: {
                 [Op.iLike]: search
             }
         }
-    }).then(results => {
-        console.log(results)
+    }).then(results => {        
         res.render('shop/search-results', {
             results: results
         })
@@ -70,25 +67,57 @@ exports.getAdvancedSearchPage = (req, res, next) => {
 }
 
 exports.getAdvancedSearchResults = (req, res, next) => {    
-    const {genre, player, platform, requireAllSelections} = req.query
-    let queryText = '';    
-    console.log("box is: " + requireAllSelections);
-    if(requireAllSelections == undefined){
-            queryText = 
+    const {genre, players, platform, requireAllSelections} = req.query
+    let queryText = '';            
+    if(requireAllSelections == undefined){        
+            /*queryText = 
         `SELECT * 
         FROM games 
         WHERE genre ='` + genre + 
-        `' OR players='` + player + 
+        `' OR players='` + players + 
         `' OR platform='` + platform + 
-        `'`;    
-    } else {
-        queryText = 
-    `SELECT * 
+        `'`;*/
+        queryText = `SELECT * FROM games WHERE `
+        if(genre!='none') {
+            queryText += `genre='` + genre + `'`
+            if(players!= 'none' || platform!= 'none'){
+                queryText += ` OR `
+            }
+        }
+        if(players!='none'){
+            queryText += `players='` + players + `'`
+            if(platform!= 'none'){
+                queryText += ` OR `
+            }
+        }
+        if(platform != 'none'){
+            queryText += `platform='` + platform + `'`
+        }    
+    } else {        
+        queryText = `SELECT * FROM games WHERE `        
+        if(genre != 'none') {
+            queryText += `genre='` + genre + `'`
+            if(players!= 'none' || platform!= 'none'){
+                queryText += ` AND `
+            }
+        }
+        if(players!='none'){
+            queryText += `players='` + players + `'`
+            if(platform!= 'none'){
+                queryText += ` AND `
+            }
+        }
+        if(platform != 'none'){
+            queryText += `platform='` + platform + `'`
+        }
+        console.log("Text is: " + queryText);
+
+    /*`SELECT * 
     FROM games 
     WHERE genre ='` + genre + 
-    `' AND players='` + player + 
+    `' AND players='` + players + 
     `' AND platform='` + platform + 
-    `'`;
+    `'`;*/
     } 
 
     pool.query(queryText, (err, result) => {        
@@ -183,4 +212,8 @@ exports.addToCart = (req, res, next) => {
         .then(()=>{
             res.redirect('/shop/cart');
         })
+}
+
+getAdvancedSearchString = (genre, players, platform) => {
+
 }
