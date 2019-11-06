@@ -1,5 +1,7 @@
 # curl test cases
 
+Author: Zequn Jiang
+
 ## Resources
 
 - games
@@ -44,6 +46,6 @@ curl -X PUT -d "title=Call of Duty: Modern Warefare&price=50&description=Call of
 
 ## Endpoint for game_genres
 
-```tejl
+```Text
 
 ```
