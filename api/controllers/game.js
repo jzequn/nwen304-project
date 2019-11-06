@@ -16,7 +16,7 @@ exports.getGames = (req, res, next) => {
                     message: 'No games found!'
                 })
                 // next()
-            }else{
+            } else {
                 res.status(200).json({
                     message: 'Fetch game list successfully',
                     games: games
@@ -46,7 +46,7 @@ exports.getGameById = (req, res, next) => {
                     message: 'No game found!'
                 })
                 // next()
-            }else{
+            } else {
                 // console.log('found one game!')
                 res.status(200).json({
                     message: 'Fetch game successfully',
@@ -109,18 +109,15 @@ exports.deleteGameById = (req, res, next) => {
                 res.status(404).json({
                     message: 'No game found!'
                 })
-                // next()
-            }else{
-                game = game;
-                return game.destroy();
+            } else {
+                game = game
+                game.destroy();
+                res.status(200).json({
+                    message: 'Delete game successfully',
+                    deletedGame: game
+                })
             }
 
-        })
-        .then(result => {
-            res.status(200).json({
-                message: 'Delete game successfully',
-                deletedGame: game
-            })
         })
         .catch(err => {
             res.status(500).json({
@@ -136,7 +133,9 @@ exports.deleteGameById = (req, res, next) => {
 exports.putGameById = (req, res, next) => {
     const { gameId } = req.params;
     const { title, price, description, num_in_stock } = req.body;
-
+    console.log('params', params)
+    console.log('req.bobdy', req.bobdy)
+    let game;
     Game.findByPk(gameId)
         .then(game => {
             if (!game) {// if no game found! create one
@@ -146,11 +145,13 @@ exports.putGameById = (req, res, next) => {
                     description: description,
                     num_in_stock: num_in_stock
                 }).then(game => {
+                    game = game;
                     return game;
                 })
                     .catch(err => {
                         res.status(500).json({
                             message: 'No game found and create game fail!',
+                            game: game
                         })
                     })
             } else {// edit this game
