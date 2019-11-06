@@ -11,13 +11,19 @@ exports.getAdmin = (req, res, next) => {
 
 // show one user
 exports.getUserByID = (req, res, next) => {
+    let pageMessage = '';
     const { InputUserID } = req.query;
     const queryText = 'SELECT * FROM users WHERE id=' + InputUserID;
     pool.query(queryText, (err, result) => {        
         if(err){
             return console.error('error in getUserByID', err)
-        }    
-        const pageMessage = 'User: ' + result.rows.username;
+        }
+        if(result.rows == ''){
+            pageMessage = 'There are no users with this id.'       
+        }else{
+            console.log("in here when i bloody shouldn't be! and result is: " + result);
+            pageMessage = 'User details:';
+        }                 
         res.render('admin/review-user', {
             user: result.rows,
             message: pageMessage
@@ -27,17 +33,8 @@ exports.getUserByID = (req, res, next) => {
 
 // show one order
 exports.getOrderByID = (req, res, next) => {
-    const message = '';
-    this.getOrderByID().then(result =>{
-        if(!result){
-            message = "Couldn't find any orders."
-        }
-        res.render('admin/review-orders', {
-            orders: result.rows,
-            message: message
-        })
-    })
-    /*const { InputOrderID } = req.query;
+    let pageMessage = '';
+    const { InputOrderID } = req.query;
     const queryText = 
     `SELECT
     u.username, 
@@ -51,21 +48,28 @@ exports.getOrderByID = (req, res, next) => {
     JOIN users AS u 
     ON u.id = o.user_id
     WHERE o.order_id=` + InputOrderID;
+    console.log('query is : ' + queryText);
     pool.query(queryText, (err, result) => {
         if(err){
             return console.error('error in getOrderByID', err)
+        }
+        if(result.rows == ''){
+            pageMessage = 'There are no orders with this id.'       
+        }else{
+            console.log("in here when i bloody shouldn't be! and result is: " + result);
+            pageMessage = 'Order of ' + result.rows[0].username;
         }        
-        const pageMessage = 'Order of ' + result.rows.username;
         res.render('admin/review-orders', {
             orders: result.rows,
             message: pageMessage
         })
-    })*/
+    })
 }
 
 // shows list of orders
 exports.getOrderReviewPage = (req, res, next) => {
-    const {username, userid, email} = req.query;    
+    const {username, userid, email} = req.query;
+    let pageMessage = '';    
     
     const queryText = 
     `SELECT 
@@ -77,12 +81,20 @@ exports.getOrderReviewPage = (req, res, next) => {
     o.deliv_addr  
     FROM orders AS o 
     JOIN users AS u 
-    ON u.id = o.user_id`
+    ON u.id = o.user_id
+    WHERE o.user_id=` + userid;
     pool.query(queryText, (err, result) => {   
         if(err){
             return console.error('error in getOrderReviewPage', err)
+        }
+        console.log('result.rows is: ' + result.rows);
+        if(result.rows == ''){
+            pageMessage = 'There are no orders for this user.'       
+        }else{
+            console.log("in here when i bloody shouldn't be! and result is: " + result);
+            pageMessage = 'Looking at all past orders of ' + result.rows[0].username;   
         }        
-        const pageMessage = 'Looking at all past orders of ' + result.rows[0].username;   
+        
         res.render('admin/review-orders', {
             orders: result.rows,
             message: pageMessage
