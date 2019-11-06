@@ -2,14 +2,14 @@ const express = require('express')
 
 const router = express.Router()
 
-const orderController = require('../controllers/order')
+const userController = require('../controllers/user')
 
-router.get('/order', orderController.getOrders)
+router.get('/user', userController.getUsers)
 
-router.get('/order/:orderID', orderController.getOrderByID)
-router.post('/order', orderController.postOneOrder)
-router.delete('/order/:orderID', orderController.deleteOrderByID)
-router.put('/order/:orderID', orderController.putOneOrderByID)
+router.get('/user/:userID', userController.getUserByID)
+router.post('/user', userController.postOneUser)
+router.delete('/user/:userID', userController.deleteUserByID)
+router.put('/user/:userID', userController.putOneUserByID)
 
 
 
