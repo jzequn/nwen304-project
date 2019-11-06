@@ -55,8 +55,7 @@ exports.getOrderByID = (req, res, next) => {
         }
         if(result.rows == ''){
             pageMessage = 'There are no orders with this id.'       
-        }else{
-            console.log("in here when i bloody shouldn't be! and result is: " + result);
+        }else{            
             pageMessage = 'Order of ' + result.rows[0].username;
         }        
         res.render('admin/review-orders', {
