@@ -8,7 +8,7 @@ const Game = require('../../models/game.model')
  * Get the game list from postgreSQL database
  * Author: Zequn Jiang
  */
-exports.getGames = (req, res, next) => {    
+exports.getGames = (req, res, next) => {
     Game.findAll()
         .then(games => {
             if (!games) {
@@ -40,12 +40,12 @@ exports.getGameById = (req, res, next) => {
     const gameId = req.params.gameId;
     Game.findByPk(gameId)
         .then(game => {
-            if (!game) {                
+            if (!game) {
                 res.status(404).json({
                     message: 'No game found!'
                 })
                 // next()
-            }else{                
+            } else {
                 res.status(200).json({
                     message: 'Fetch game successfully',
                     game: game
@@ -53,7 +53,7 @@ exports.getGameById = (req, res, next) => {
             }
 
         })
-        .catch(err => {            
+        .catch(err => {
             res.status(500).json({
                 message: 'Fetch game fail!',
             })
@@ -69,13 +69,16 @@ exports.getGameById = (req, res, next) => {
 exports.postOneGame = (req, res, next) => {
 
     // add error handle, if no info is provided!!
-    const { title, price, description, num_in_stock } = req.body;
+    const { title, price, description, num_in_stock, genre, players, platform } = req.body;
 
     Game.create({
         title: title,
         price: price,
         description: description,
-        num_in_stock: num_in_stock
+        num_in_stock: num_in_stock,
+        genre: genre,
+        players: players,
+        platform: platform
     })
         .then(game => {
             res.status(201).json({

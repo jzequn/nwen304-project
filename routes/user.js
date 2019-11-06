@@ -1,34 +1,30 @@
+/**
+ * Author: Zequn Jiang
+ */
 const express = require('express');
 const passport = require('passport')
-// const { check, validationResult } = require('express-validator');
 router = express.Router();
-
-const {ensureAuthenticated}= require('../util/auth')
+const { ensureAuthenticated } = require('../util/auth')
 const userController = require('../controllers/user');
 
-// router.post('/users', [
-//     // username must be an email
-//     check('username').isEmail(),
-//     // password must be at least 5 chars long
-//     check('password').isLength({ min: 5 })
-// ], userController.postUser);
-
+/**
+ * route: get-'/users/register',  post-'/users/register', 
+ *        get-'/users/login',     get-'/users/logout'
+ *        post-'/users/login',    get-'/users/dashboard'
+ * Author: Zequn Jiang
+ */
 router.get('/users/register', userController.getRegister)
 router.post('/users/register', userController.postRegister)
 router.get('/users/login', userController.getLogin)
-router.get('/users/logout', ensureAuthenticated,userController.getLogout)
+router.get('/users/logout', ensureAuthenticated, userController.getLogout)
+router.post('/users/login', userController.postLogin)
+router.get('/users/dashboard', ensureAuthenticated, userController.getDashboard)
 /////////////router.get('/users/search', userController.listSearch)
 
-router.post('/users/login',userController.postLogin)
 
-router.get('/users/dashboard',ensureAuthenticated,userController.getDashboard)
-
-router.get('/users/changepassword',ensureAuthenticated,userController.getChangePassword)
-
-router.post('/users/postchangepassword',ensureAuthenticated,userController.postChangePassword)
-
+router.get('/users/changepassword', ensureAuthenticated, userController.getChangePassword)
+router.post('/users/postchangepassword', ensureAuthenticated, userController.postChangePassword)
 router.get('/users/resetpassword', userController.getResetPassword)
-
 router.post('/users/postresetpassword', userController.postResetPassword)
 
 // fb login strategy 
@@ -42,15 +38,15 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 router.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect: '/',
-        failureRedirect: '/users/login'
-    }));
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+  }));
 
 
-    router.get('/auth/facebook',
-    passport.authenticate('facebook', { scope: 'read_stream' })
-  );
+router.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: 'read_stream' })
+);
 
 // google login strategy
 // GET /auth/google
@@ -66,9 +62,9 @@ router.get('/auth/google',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-router.get('/auth/google/callback', 
+router.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/users/login' }),
-  function(req, res) {
+  function (req, res) {
     res.redirect('/');
   });
 

@@ -5,10 +5,16 @@ router = express.Router();
 const shopController = require('../controllers/shop')
 const {ensureAuthenticated}= require('../util/auth')
 
-router.get('/shop/search-results', shopController.getSearch);
-router.get('/shop/shop-item', shopController.getShopItem);
+/**
+ * route: '/shop/cart', '/shop/add-to-cart'
+ * Author: Zequn Jiang
+ */
 router.get('/shop/cart', ensureAuthenticated, shopController.getCart);
 router.post('/shop/add-to-cart',ensureAuthenticated, shopController.addToCart);
+
+
+router.get('/shop/search-results', shopController.getSearch);
+router.get('/shop/shop-item', shopController.getShopItem);
 router.get('/shop/advanced-search', shopController.getAdvancedSearchPage);
 router.get('/shop/get-advanced-search', shopController.getAdvancedSearchResults);
 router.get('/shop/get-games-of-genre/::genre', shopController.getGamesByGenre);
