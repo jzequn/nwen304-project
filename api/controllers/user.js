@@ -1,22 +1,22 @@
 pool = require('../../util/postgres');
 
 
-exports.getOrders = (req, res, next) => {
-queryText = 'SELECT * FROM orders';
+exports.getUsers = (req, res, next) => {
+queryText = 'SELECT * FROM users';
 
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to fetch orders',
+                message: 'Failed to fetch users',
             })
         } else if(!result){
             res.status(404).json({
-                message: 'No orders found!'
+                message: 'No users found!'
             })
         }
         else{
             res.status(200).json({
-                message: 'Fetching orders was successful.',
+                message: 'Fetching users was successful.',
                 result: result
             })
         }        
@@ -24,36 +24,23 @@ queryText = 'SELECT * FROM orders';
     })
 }
 
-exports.getOrderByID = (req, res, next) => {
+exports.getUserByID = (req, res, next) => {
 
-    const orderID  = req.params.orderID;
-    const queryText = 
-    `SELECT
-    u.username, 
-    o.user_id,
-    o.order_id, 
-    o.order_date, 
-    o.total_price, 
-    o.deliv_addr 
-    FROM 
-    orders AS o 
-    JOIN users AS u 
-    ON u.id = o.user_id
-    WHERE o.order_id=` + orderID;
+    const userID  = req.params.userID;
+    const queryText = `SELECT * FROM users WHERE id=` + userID;
     pool.query(queryText, (err, result) => {
-        if(err){
-            console.error('error in getOrderByID', err)
+        if(err){            
             res.status(500).json({
-                message: 'Failed to fetch order',
+                message: 'Failed to fetch user',
             })
         } else if(!result){
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No user found!'
             })
         }
         else{
             res.status(200).json({
-                message: 'Fetching order was successful.',
+                message: 'Fetching user was successful.',
                 result: result
             })
         }        
@@ -61,13 +48,13 @@ exports.getOrderByID = (req, res, next) => {
     })
 }
 
-exports.postOneOrder = (req, res, next) => {
+exports.postOneUser = (req, res, next) => {
 
-    const { user_id, order_date, total_price, deliv_addr } = req.body;
+    const {username, email, password } = req.body;
     const queryText = 
     `INSERT INTO
-    orders(user_id, order_date, total_price, deliv_addr) 
-    VALUES(` + user_id + `, '` + order_date + `', ` + total_price + `, '` + deliv_addr + `');`
+    users(username, email, password) 
+    VALUES('` + username + `', '` + email + `', '` + password + `');`
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
@@ -76,7 +63,7 @@ exports.postOneOrder = (req, res, next) => {
         } 
         else {
             res.status(201).json({
-                message: 'Posting order was successful.',
+                message: 'Posting user was successful.',
                 result: result
             })
         }        
@@ -84,32 +71,32 @@ exports.postOneOrder = (req, res, next) => {
     })
 }
 
-exports.deleteOrderByID = (req, res, next) => {
+exports.deleteUserByID = (req, res, next) => {
 
     const orderID = req.params.orderID;
-    const queryText = `SELECT * FROM orders WHERE order_id = ` + orderID;
-    const deleteText = `DELETE FROM orders WHERE order_id = ` + orderID;
+    const queryText = `SELECT * FROM users WHERE id = ` + userID;
+    const deleteText = `DELETE FROM users WHERE id = ` + userID;
 
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to find order',
+                message: 'Failed to find user',
             })
         } 
         else if (!result) {
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No user found!'
             })
         } else {
             pool.query(deleteText, (err, result) => {
                 if(err){                    
                     res.status(500).json({
-                        message: 'Failed to delete order',
+                        message: 'Failed to user order',
                     })
                 } 
                 else {
                     res.status(200).json({
-                        message: 'Deleting order was successful.',
+                        message: 'Deleting user was successful.',
                         result: result
                     })
                 }        
@@ -120,11 +107,11 @@ exports.deleteOrderByID = (req, res, next) => {
     })    
 }
 
-exports.putOneOrderByID = (req, res, next) => {
+exports.putOneUserByID = (req, res, next) => {
     const orderID  = req.params.orderID;
-    const { user_id, order_date, total_price, deliv_addr } = req.body;    
-    const queryText = `SELECT * FROM orders WHERE order_id = ` + orderID;
-    const updateText = `UPDATE orders SET user_id=` + user_id +  `, order_date='` + order_date + `', total_price=` + total_price +  `, deliv_addr='` + deliv_addr +  `' WHERE order_id = ` + orderID;
+    const { username, email, password } = req.body;    
+    const queryText = `SELECT * FROM users WHERE order_id = ` + userID;
+    const updateText = `UPDATE users SET username='` + username +  `', email='` + email + `', password='` + password + `' WHERE id = ` + userID;
 
     pool.query(queryText, (err, result) => {
         if(err){            
@@ -134,18 +121,18 @@ exports.putOneOrderByID = (req, res, next) => {
         } 
         else if (!result) {
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No user found!'
             })
         } else {
             pool.query(updateText, (err, result) => {
                 if(err){                    
                     res.status(500).json({
-                        message: 'Failed to update order',
+                        message: 'Failed to update user',
                     })
                 } 
                 else {
                     res.status(200).json({
-                        message: 'Updating order was successful.',
+                        message: 'Updating user was successful.',
                         result: result
                     })
                 }        
