@@ -14,4 +14,5 @@ router.use('/',require('./routes/cart'))
 router.use('/',require('./routes/game'))
 router.use('/',require('./routes/game-genre'))
 
+router.use('/',require('./routes/user'))
 module.exports = router;

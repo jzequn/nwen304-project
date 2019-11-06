@@ -30,3 +30,40 @@ exports.getCarts = (req, res, next) => {
             })
         })
 }
+
+/**
+ * Get cart list
+ * Author: Zequn Jiang
+ */
+exports.getCartById = (req,res,next)=>{
+
+    const {cartId} = req.params;
+    Cart.findByPk(cartId)
+    .then(cart=>{
+        if (!cart) {
+            res.status(404).json({
+                message: `No cart found with cartId:${cartId}!`
+            })
+        } else {
+            res.status(200).json({
+                message: 'Fetch cart successfully',
+                cart:cart
+            })
+        }
+
+    })
+    .catch(err=>{
+        res.status(500).json({
+            message: 'Fetch cart by id fail!',
+        })
+    })
+}
+
+/**
+ * Get cart list
+ * Author: Zequn Jiang
+ */
+exports.postCartById =(req,res,next)=>{
+
+    
+}
