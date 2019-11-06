@@ -23,7 +23,7 @@
           </div>
           <!-- /.col-lg-3 -->
           
-          <%if(user){%>
+          <%if(user.length>0){%>
           <div>
               <h2>Enter new details in the fields that you would like to change.</h2>
               <form action="/admin/put-user-details" method="POST">
