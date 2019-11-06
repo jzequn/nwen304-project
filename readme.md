@@ -1,11 +1,25 @@
-# How to use
+# NWEN304 Team project
 
-```
+Readme author: Zequn Jiang
+
+Our project is host on heroku, click [here](https://nwen304-team-project.herokuapp.com/) to browse our website
+
+## How to use our code
+
+```Text
 1. Download the project
-2. run 'npm install'
-3. create .env file in the root folder, save it with DATABASE_URL
-
-4. run 'npm start' or 'npm run dev' to start the app
+2. Run 'npm install'
+3. Create .env file in the root folder, add environment variables to .env file.
+    Variable for postgreSQL: DATABASE_URL
+    Variable for passport-facebook:
+            FB_APP_ID
+            FB_APP_SECRET
+            FB_CALLBACK_URL
+    Variable for passport-google-oauth 2:
+            GOOGLE_CLIENT_ID
+            GOOGLE_CLIENT_SECRET
+            GOOGLE_CALLBACK_URLS
+4. Run 'npm start' to start the app
 ```
 
 ## Related research
@@ -14,19 +28,10 @@
 
 ## cURL
 
-```Text
-    Endpoints test
+[Find more here](assets/curl.md)
 
-    // post one game
-    curl --data "title=test&price=55.55&description=test&num_in_stock=3" http://localhost:3000/api/game
+## Small things to be aware of
 
-    // delete
-    curl -X DELETE http://localhost:3000/api/game/1
+1. I was working on other people's laptop and forget to config the git user.name and git user.email
 
-
-    //get one game by id
-    curl http://localhost:3000/api/game/1
-
-
-    curl -X PUT -d "title=test123&price=12&description=you win" http://localhost:3000/api/game/6
-```
+![forget to config github name when working on other pc](assets/images/forget-to-config-github-name.PNG)

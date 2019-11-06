@@ -1,3 +1,7 @@
+/**
+ * App.js - server setup
+ * Author: Zequn Jiang
+ */
 require('dotenv').config()
 const express = require('express')
 const app = express();
@@ -22,13 +26,13 @@ const logger = require('morgan')
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*')
-  // // Request methods you wish to allow
+  // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   // Request headers you wish to allow ,
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-ControlAllow-Headers');
   // Pass to next layer of middleware
   next();
- });
+});
 
 //set up engines 
 app.set('view engine', 'ejs')
@@ -36,14 +40,13 @@ app.set('views', 'views')
 
 // serve javascript files and css files
 app.use(express.static(path.join(__dirname, 'public')))
-// app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 
-// setup restful api 
+// setup restful api endpoints
 // require('./api/apis')(app); 
-app.use('/api/',require('./api/apis2'))
+app.use('/api/', require('./api/apis2'))
 
 // passport config
 require('./util/passport')(passport)
@@ -77,9 +80,9 @@ app.use((req, res, next) => {
 
 
 
-// routes
-const indexRoute = require('./routes/index')
-app.use(indexRoute);
+// frontend routes
+const indexRoute = require('./routes/index');
+app.use(indexRoute)
 const userRoute = require('./routes/user');
 app.use(userRoute);
 const shopRoute = require('./routes/shop');
@@ -99,7 +102,7 @@ const port = process.env.PORT || 3000;
 
 
 
-// database association
+// Database association for sequelize
 const Game = require('./models/game.model');
 const User = require('./models/user.model')
 const Cart = require('./models/cart.model')
@@ -107,12 +110,11 @@ const CartItem = require('./models/cart-item.model')
 Game.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Game);
 User.hasOne(Cart);
-Cart.belongsTo(User,{ constraints: true, onDelete: 'CASCADE' });
-Cart.belongsToMany(Game, { through: CartItem , onDelete: 'cascade' });
-Game.belongsToMany(Cart, { through: CartItem ,onDelete: 'cascade' });
+Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+Cart.belongsToMany(Game, { through: CartItem, onDelete: 'CASCADE' });
+Game.belongsToMany(Cart, { through: CartItem, onDelete: 'CASCADE' });
 
 
-// Sequel code
 // connect to heroku PostgreSQL, start listening the app on port
 const sequelize = require('./util/database')
 sequelize

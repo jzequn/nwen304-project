@@ -17,7 +17,7 @@ Zequn:
 8. cart will be create each time user login, make a condition to do this. 
     so that cart only create once!
 
-9. delete irelavant cart properties.
+9. delete irrelevant cart properties.
 
 10. 
 
