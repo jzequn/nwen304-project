@@ -116,8 +116,8 @@ Game.belongsToMany(Cart, { through: CartItem ,onDelete: 'cascade' });
 // connect to heroku PostgreSQL, start listening the app on port
 const sequelize = require('./util/database')
 sequelize
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then(result => {
     app.listen(port, () => {
       console.log(`App is running on port ${port}`)
