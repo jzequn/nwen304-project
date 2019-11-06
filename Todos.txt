@@ -4,21 +4,68 @@ Zequn:
     (done!)
 2. Check email is registered or not before submit button is click, make submission quicker
 
-
 3. Add business logic to Antony's cart page 
 
 4. Create api folder, and start working on restful api. 
 
 5. If Antony doesn't have time, help him with administration page and it's business logic 
 
-
 6. Add active css style to the button when the related page is displayed.
 
-
 7. when user enter wrong password, return a message, and the email field should be filled. 
-
 
 8. cart will be create each time user login, make a condition to do this. 
     so that cart only create once!
 
 9. delete irelavant cart properties.
+
+10. 
+
+
+cart/cartItems/addresses/
+
+
+
+
+
+
+
+restul api: 
+	
+	route-game:
+
+		// post one game
+		curl --data "title=test&price=55.55&description=test&num_in_stock=3" http://localhost:3000/api/game
+
+		// delete
+		curl -X DELETE http://localhost:3000/api/game/1
+
+
+		//get one game by id
+		curl http://localhost:3000/api/game/1
+
+
+		curl -X PUT -d "title=test123&price=12&description=you win" http://localhost:3000/api/game/6
+	
+	
+	
+	route-game-genre:
+		// get game-genre list 
+		curl http://localhost:3000/api/game-genres
+		// post one game-genre
+		curl --data "genreId=55&&gameId=12" http://localhost:3000/api/game-genre
+			// error test
+			curl --data "genreId=55&&gameId=test" http://localhost:3000/api/game-genre
+		// delete
+		curl -X DELETE http://localhost:3000/api/game-genre/1
+
+
+		//get one game-genre by id
+		curl http://localhost:3000/api/game-genre/1
+
+
+		curl -X PUT -d "gameId=test" http://localhost:3000/api/game-genre/2
+
+
+
+

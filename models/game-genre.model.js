@@ -1,16 +1,27 @@
+/**
+ * Model: game_genres model
+ * Author: Zequn Jiang
+ */
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const GameGenre = sequelize.define('gameGenre', {
+/**
+ * table name: game_genres
+ */
+const GameGenre = sequelize.define('game_genres', {
     genre_id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
+        autoIncrement: false,
         allowNull: false,
         primaryKey: true
     },
     game_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     }
-})
+},{
+    //disable createdAt and updatedAt timestamp
+    timestamps: false
+}
+)
 
 module.exports = GameGenre;

@@ -1,8 +1,16 @@
+/**
+ * Author: Zequn Jiang
+ * this will go to cart page!!!
+ */
 const path = require('path');
 const Game = require('../models/game.model');
 Sequelize = require('sequelize');
 pool = require ('../util/postgres');
 
+/**
+ * Author: Zequn Jiang
+ * render index page for test purpose
+ */
 exports.getIndex = (req, res, next) => {
     res.render('index');
 }
@@ -121,6 +129,11 @@ exports.getCart = (req, res, next) => {
     })
 }
 
+/**
+ * Author: Zequn Jiang
+ * Add user's preference to their own cart
+ * Each user only has one cart at a time
+ */
 exports.addToCart = (req, res, next) => {
     console.log('add-to-cart, req.body', req.body);
     const { game_id } = req.body;

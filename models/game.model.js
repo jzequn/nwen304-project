@@ -1,3 +1,7 @@
+/**
+ * Model: game
+ * Author: Zequn Jiang
+ */
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
@@ -11,7 +15,10 @@ const Game = sequelize.define('games', {
     title: Sequelize.STRING,
     price: Sequelize.DECIMAL(4,2),
     description: Sequelize.STRING,    
-    num_in_stock: Sequelize.INTEGER
+    num_in_stock: Sequelize.INTEGER,
+    genre:Sequelize.STRING,
+    players:Sequelize.STRING,
+    platform:Sequelize.STRING
 }, {
     timestamps: false
 })

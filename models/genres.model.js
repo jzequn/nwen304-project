@@ -1,3 +1,7 @@
+/**
+ * Model: genres
+ * Author: Zequn Jiang
+ */
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 

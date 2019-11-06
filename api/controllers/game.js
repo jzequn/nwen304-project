@@ -1,7 +1,12 @@
+/**
+ * Module: game route (restful api)
+ * Author: Zequn Jiang
+ */
 const Game = require('../../models/game.model')
 
 /**
  * Get the game list from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.getGames = (req, res, next) => {    
     Game.findAll()
@@ -11,7 +16,7 @@ exports.getGames = (req, res, next) => {
                     message: 'No games found!'
                 })
                 // next()
-            }else{
+            } else {
                 res.status(200).json({
                     message: 'Fetch game list successfully',
                     games: games
@@ -29,6 +34,7 @@ exports.getGames = (req, res, next) => {
 
 /**
  * Get a game by primary key - id, from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.getGameById = (req, res, next) => {
     const gameId = req.params.gameId;
@@ -40,7 +46,7 @@ exports.getGameById = (req, res, next) => {
                     message: 'No game found!'
                 })
                 // next()
-            }else{
+            } else {
                 // console.log('found one game!')
                 res.status(200).json({
                     message: 'Fetch game successfully',
@@ -61,6 +67,7 @@ exports.getGameById = (req, res, next) => {
 
 /**
  * Post one game to postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.postOneGame = (req, res, next) => {
 
@@ -91,6 +98,7 @@ exports.postOneGame = (req, res, next) => {
 
 /**
  * Delete game by primary key - id, from postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.deleteGameById = (req, res, next) => {
     const gameId = req.params.gameId;
@@ -101,18 +109,15 @@ exports.deleteGameById = (req, res, next) => {
                 res.status(404).json({
                     message: 'No game found!'
                 })
-                // next()
-            }else{
-                game = game;
-                return game.destroy();
+            } else {
+                game = game
+                game.destroy();
+                res.status(200).json({
+                    message: 'Delete game successfully',
+                    deletedGame: game
+                })
             }
 
-        })
-        .then(result => {
-            res.status(200).json({
-                message: 'Delete game successfully',
-                deletedGame: game
-            })
         })
         .catch(err => {
             res.status(500).json({
@@ -123,11 +128,14 @@ exports.deleteGameById = (req, res, next) => {
 
 /**
  * Edit game by id to postgreSQL database
+ * Author: Zequn Jiang
  */
 exports.putGameById = (req, res, next) => {
     const { gameId } = req.params;
     const { title, price, description, num_in_stock } = req.body;
-
+    console.log('params', params)
+    console.log('req.bobdy', req.bobdy)
+    let game;
     Game.findByPk(gameId)
         .then(game => {
             if (!game) {// if no game found! create one
@@ -137,11 +145,13 @@ exports.putGameById = (req, res, next) => {
                     description: description,
                     num_in_stock: num_in_stock
                 }).then(game => {
+                    game = game;
                     return game;
                 })
                     .catch(err => {
                         res.status(500).json({
                             message: 'No game found and create game fail!',
+                            game: game
                         })
                     })
             } else {// edit this game

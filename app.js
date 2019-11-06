@@ -107,17 +107,17 @@ const CartItem = require('./models/cart-item.model')
 Game.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Game);
 User.hasOne(Cart);
-Cart.belongsTo(User);
-Cart.belongsToMany(Game, { through: CartItem });
-Game.belongsToMany(Cart, { through: CartItem });
+Cart.belongsTo(User,{ constraints: true, onDelete: 'CASCADE' });
+Cart.belongsToMany(Game, { through: CartItem , onDelete: 'cascade' });
+Game.belongsToMany(Cart, { through: CartItem ,onDelete: 'cascade' });
 
 
 // Sequel code
 // connect to heroku PostgreSQL, start listening the app on port
 const sequelize = require('./util/database')
 sequelize
-  // .sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then(result => {
     app.listen(port, () => {
       console.log(`App is running on port ${port}`)
