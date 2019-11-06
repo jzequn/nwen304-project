@@ -142,7 +142,7 @@ exports.postLogin = (req, res, next) => {
 exports.getLogout = (req, res, next) => {
     req.logout();
     req.flash('success_msg', 'You are logged out!')
-    // res.render('users/logout');
+    // res.render('users/logout');test!!
     res.redirect('/users/login')
 }
 
@@ -151,4 +151,112 @@ exports.getDashboard = (req, res, next) => {
     res.render('users/dashboard', {
         name: req.user.username
     });
+}
+
+
+exports.getChangePassword = (req, res, next) => {
+    res.render('users/changepassword');
+
+}
+
+exports.postChangePassword = (req, res, next) => {
+    const { oldpassword, newpassword, repeatpassword } = req.body;
+    const errors = [];
+    const user = req.user;
+
+    if (!oldpassword || !newpassword || !repeatpassword) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
+
+    if (repeatpassword != newpassword) {
+        errors.push({ msg: 'Passwords do not match' });
+    }
+
+    if (newpassword.length > 0) {
+
+        // Create an array and push all possible values that you want in password
+        var matchedCase = new Array();
+        matchedCase.push("[$@$!%*#?&]"); // Special Charector
+        matchedCase.push("[A-Z]");      // Uppercase Alpabates
+        matchedCase.push("[0-9]");      // Numbers
+        matchedCase.push("[a-z]");     // Lowercase Alphabates
+
+        // Check the conditions
+        var ctr = 0;
+        for (var i = 0; i < matchedCase.length; i++) {
+            if (new RegExp(matchedCase[i]).test(newpassword)) {
+                ctr++;
+            }
+        }
+        // Display it
+        var color = "";
+        var strength = "";
+        switch (ctr) {
+            case 0:
+            case 1:
+            case 2:
+                strength = "Very Weak";
+                color = "red";
+                break;
+            case 3:
+                strength = "Medium";
+                color = "orange";
+                break;
+            case 4:
+                strength = "Strong";
+                color = "green";
+                break;
+        }
+        if (newpassword.length < 9) {
+            errors.push({ msg: 'New Password must contain at least 8 characters' });
+        } else if (strength === "" || strength === "Very Weak") {
+            errors.push({ msg: 'Password is Too Weak' });
+        }
+    }
+
+    if (errors.length > 0) {
+        console.log('errors.length> 0')
+        errors.map(err => {
+            console.log("err msg - ", err.msg)
+        })
+        res.render('users/changepassword', {
+            errors,
+            oldpassword,
+            newpassword,
+            repeatpassword
+        });
+    } else {
+        bcrypt.compare(oldpassword, user.password, (err, isMatch) => {
+            console.log('old password', oldpassword)
+            if (err) throw err;
+            if (isMatch) {
+                bcrypt.genSalt(10, (err, salt) => {
+                    console.log('newpassword', newpassword)
+                    bcrypt.hash(newpassword, salt, (err, hash) => {
+                        if (err) throw err;
+                        user.password = hash;
+                        user.save();
+                        req.flash(
+                            'success_msg',
+                            'You have changed the password and can log in'
+                        );
+                        res.redirect('/users/login');
+                    });
+                });
+            }
+        });
+    }
+}
+
+exports.getResetPassword = (req, res, next) => {
+    res.render('users/resetpassword');
+}
+
+exports.postResetPassword = (req, res, next) => {
+    //send a password reset link
+    req.flash(
+        'success_msg',
+        'Password Link sent!!'
+    );
+    res.render('users/login');
 }

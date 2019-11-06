@@ -23,8 +23,13 @@ router.post('/users/login',userController.postLogin)
 
 router.get('/users/dashboard',ensureAuthenticated,userController.getDashboard)
 
+router.get('/users/changepassword',ensureAuthenticated,userController.getChangePassword)
 
+router.post('/users/postchangepassword',ensureAuthenticated,userController.postChangePassword)
 
+router.get('/users/resetpassword', userController.getResetPassword)
+
+router.post('/users/postresetpassword', userController.postResetPassword)
 
 // fb login strategy 
 // Redirect the user to Facebook for authentication.  When complete,

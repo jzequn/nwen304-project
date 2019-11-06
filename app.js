@@ -18,7 +18,17 @@ const flash = require('connect-flash')
 
 const logger = require('morgan')
 
-
+// Add headers
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  // // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Request headers you wish to allow ,
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-ControlAllow-Headers');
+  // Pass to next layer of middleware
+  next();
+ });
 
 //set up engines 
 app.set('view engine', 'ejs')
@@ -78,7 +88,6 @@ const adminRoute = require('./routes/admin');
 app.use(adminRoute);
 const errorNotFoundController = require('./controllers/404');
 app.use(errorNotFoundController.get404);
-
 
 const port = process.env.PORT || 3000;
 
