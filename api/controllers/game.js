@@ -45,12 +45,7 @@ exports.getGameById = (req, res, next) => {
                     message: 'No game found!'
                 })
                 // next()
-<<<<<<< HEAD
-            } else {
-                // console.log('found one game!')
-=======
             }else{                
->>>>>>> Antony
                 res.status(200).json({
                     message: 'Fetch game successfully',
                     game: game
