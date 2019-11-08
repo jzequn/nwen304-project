@@ -31,13 +31,13 @@
                                   <% if( products.length > 0){ %>
                                     <% let total = 0 %> 
                                         <% for( let product of products) { %>
-                                            <%  total += product.price * product.cartItem.quantity %> 
+                                            <%  total += product.price * product.quantity %> 
                                             <tr>
                                                 <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
                                                 <!-- <td><img src="/images/<%= product.title %>.jpg" /> </td> -->
                                                 <td><%= product.title %> </td>
                                                 <td>In stock</td>
-                                                <td><input class="form-control" type="text" value="<%= product.cartItem.quantity %>" /></td>
+                                                <td><input class="form-control" type="text" value="<%= product.quantity %>" /></td>
                                                 <td class="text-right">$<%= product.price %></td>
                                                 <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
                                             </tr>
