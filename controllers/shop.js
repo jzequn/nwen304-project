@@ -30,19 +30,14 @@ exports.getShopItem = (req, res, next) => {
 }
 
 // Author of getSearch: Antony Helsby
-exports.getSearch = (req, res, next) => {
-    const Op = Sequelize.Op;
-    let search = req.param('search');
-    search = '%' + search + '%';
-    Game.findAll({
-        where: {
-            title: {
-                [Op.iLike]: search
-            }
-        }
-    }).then(results => {
+exports.getSearch = (req, res, next) => {        
+    let search = req.param('search');    
+    searchQuery = "SELECT * FROM games WHERE title ILIKE " + "'%" + search + "%'"   
+
+    pool.query(searchQuery)
+    .then(results => {
         res.render('shop/search-results', {
-            results: results
+            results: results.rows
         })
     })
 }
@@ -68,58 +63,17 @@ exports.getAdvancedSearchPage = (req, res, next) => {
 
 exports.getAdvancedSearchResults = (req, res, next) => {
     const { genre, players, platform, requireAllSelections } = req.query
+
     let queryText = '';
     if (requireAllSelections == undefined) {
-        /*queryText = 
-    `SELECT * 
-    FROM games 
-    WHERE genre ='` + genre + 
-    `' OR players='` + players + 
-    `' OR platform='` + platform + 
-    `'`;*/
+
         queryText = `SELECT * FROM games WHERE `
-        if (genre != 'none') {
-            queryText += `genre='` + genre + `'`
-            if (players != 'none' || platform != 'none') {
-                queryText += ` OR `
-            }
-        }
-        if (players != 'none') {
-            queryText += `players='` + players + `'`
-            if (platform != 'none') {
-                queryText += ` OR `
-            }
-        }
-        if (platform != 'none') {
-            queryText += `platform='` + platform + `'`
-        }
+        queryText += getAdvancedSearchOR(genre, players, platform)
     } else {
         queryText = `SELECT * FROM games WHERE `
-        if (genre != 'none') {
-            queryText += `genre='` + genre + `'`
-            if (players != 'none' || platform != 'none') {
-                queryText += ` AND `
-            }
-        }
-        if (players != 'none') {
-            queryText += `players='` + players + `'`
-            if (platform != 'none') {
-                queryText += ` AND `
-            }
-        }
-        if (platform != 'none') {
-            queryText += `platform='` + platform + `'`
-        }
-        console.log("Text is: " + queryText);
-
-        /*`SELECT * 
-        FROM games 
-        WHERE genre ='` + genre + 
-        `' AND players='` + players + 
-        `' AND platform='` + platform + 
-        `'`;*/
+        queryText += getAdvancedSearchAND(genre, players, platform)        
     }
-
+    
     pool.query(queryText, (err, result) => {
         if (err) {
             return console.error('error in getAdvancedSearchResults', err)
@@ -130,6 +84,47 @@ exports.getAdvancedSearchResults = (req, res, next) => {
     })
 }
 
+// use in getAdvancedSearch for OR search (checkbox not ticked to contain all selections)
+getAdvancedSearchOR = (genre, players, platform) => {
+    let queryText = ""
+    if (genre != 'none') {
+        queryText += `genre='` + genre + `'`
+        if (players != 'none' || platform != 'none') {
+            queryText += ` OR `
+        }
+    }
+    if (players != 'none') {
+        queryText += `players='` + players + `'`
+        if (platform != 'none') {
+            queryText += ` OR `
+        }
+    }
+    if (platform != 'none') {
+        queryText += `platform='` + platform + `'`
+    }
+    return queryText
+}
+
+// use in getAdvancedSearch for AND search (checkbox is ticked to contain all selections)
+getAdvancedSearchAND = (genre, players, platform) => {
+    let queryText = ""
+    if (genre != 'none') {
+        queryText += `genre='` + genre + `'`
+        if (players != 'none' || platform != 'none') {
+            queryText += ` AND `
+        }
+    }
+    if (players != 'none') {
+        queryText += `players='` + players + `'`
+        if (platform != 'none') {
+            queryText += ` AND `
+        }
+    }
+    if (platform != 'none') {
+        queryText += `platform='` + platform + `'`
+    }
+    return queryText
+}
 
 // this will go to cart page!!!
 exports.getCart = (req, res, next) => {

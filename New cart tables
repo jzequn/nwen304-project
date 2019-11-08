@@ -1,0 +1,35 @@
+select * from carts;
+
+CREATE TABLE testcarts(
+	cart_id SERIAL NOT NULL UNIQUE,
+	user_id INTEGER NOT NULL UNIQUE,	
+	PRIMARY KEY(cart_id, user_id),
+	FOREIGN KEY(user_id) REFERENCES users(id)
+	ON DELETE CASCADE
+);
+
+CREATE TABLE testcartitems(	
+	cart_id INTEGER NOT NULL,
+	game_id INTEGER NOT NULL,
+	quantity INTEGER,
+	PRIMARY KEY(cart_id,game_id),
+	FOREIGN KEY(cart_id) REFERENCES testcarts(cart_id)
+	ON DELETE CASCADE,
+	FOREIGN KEY(game_id) REFERENCES games(game_id)
+	ON DELETE CASCADE
+);
+
+INSERT INTO testcarts(user_id) VALUES(2);
+INSERT INTO testcartitems(cart_id, game_id) VALUES(1, 1);
+
+drop table testcarts;
+drop table testcartitems;
+select * from testcarts;
+select * from testcartitems;
+delete from testcarts where user_id=1;
+delete from testcarts where user_id=2;
+
+select * from games;
+select * from carts;
+
+delete from carts where id=2;
