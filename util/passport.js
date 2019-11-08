@@ -138,7 +138,7 @@ module.exports = function (passport) {
         // });
         User.findByPk(id)
             .then(user => {
-                console.log('deserializeUser user', user)
+                //console.log('deserializeUser user', user)
                 // done(err, user);
                 done(null,user)
             })
