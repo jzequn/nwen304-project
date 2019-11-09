@@ -12,6 +12,8 @@ const {ensureAuthenticated}= require('../util/auth')
 router.get('/shop/cart', ensureAuthenticated, shopController.getCart);
 router.post('/shop/add-to-cart',ensureAuthenticated, shopController.addToCart);
 
+// router.post('/shop/testAddToCart', ensureAuthenticated, shopController.testAddToCart)
+
 
 router.get('/shop/search-results', shopController.getSearch);
 router.get('/shop/shop-item', shopController.getShopItem);
