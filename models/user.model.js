@@ -30,7 +30,7 @@ const User = sequelize.define('user', {
     }
 },{
     //disable createdAt and updatedAt timestamp
-    timestamps: false
+    timestamps: true
 })
 
 module.exports = User;

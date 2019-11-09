@@ -14,7 +14,7 @@ router.post('/shop/add-to-cart',ensureAuthenticated, shopController.addToCart);
 
 // router.post('/shop/testAddToCart', ensureAuthenticated, shopController.testAddToCart)
 
-
+router.post('/shop/checkout', shopController.postCheckout)
 router.get('/shop/search-results', shopController.getSearch);
 router.get('/shop/shop-item', shopController.getShopItem);
 router.get('/shop/advanced-search', shopController.getAdvancedSearchPage);
