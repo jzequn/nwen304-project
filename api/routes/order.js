@@ -4,7 +4,7 @@ const router = express.Router()
 
 const orderController = require('../controllers/order')
 
-router.get('/user', orderController.getOrders)
+router.get('/order', orderController.getOrders)
 
 router.get('/order/:orderID', orderController.getOrderByID)
 router.post('/order', orderController.postOneOrder)
