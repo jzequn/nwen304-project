@@ -30,26 +30,12 @@ exports.getShopItem = (req, res, next) => {
 }
 
 // Author of getSearch: Antony Helsby
-<<<<<<< HEAD
 exports.getSearch = (req, res, next) => {        
     let search = req.param('search');    
     searchQuery = "SELECT * FROM games WHERE title ILIKE " + "'%" + search + "%'"   
 
     pool.query(searchQuery)
     .then(results => {
-=======
-exports.getSearch = (req, res, next) => {
-    const Op = Sequelize.Op;
-    let search = req.param('search');
-    search = '%' + search + '%';
-    Game.findAll({
-        where: {
-            title: {
-                [Op.iLike]: search
-            }
-        }
-    }).then(results => {
->>>>>>> 4b734f3cf8b205abf9a075b480b8c0e1a7770db2
         res.render('shop/search-results', {
             results: results.rows
         })
@@ -77,7 +63,6 @@ exports.getAdvancedSearchPage = (req, res, next) => {
 
 exports.getAdvancedSearchResults = (req, res, next) => {
     const { genre, players, platform, requireAllSelections } = req.query
-<<<<<<< HEAD
 
     let queryText = '';
     if (requireAllSelections == undefined) {
@@ -89,60 +74,6 @@ exports.getAdvancedSearchResults = (req, res, next) => {
         queryText += getAdvancedSearchAND(genre, players, platform)        
     }
     
-=======
-    let queryText = '';
-    if (requireAllSelections == undefined) {
-        /*queryText = 
-    `SELECT * 
-    FROM games 
-    WHERE genre ='` + genre + 
-    `' OR players='` + players + 
-    `' OR platform='` + platform + 
-    `'`;*/
-        queryText = `SELECT * FROM games WHERE `
-        if (genre != 'none') {
-            queryText += `genre='` + genre + `'`
-            if (players != 'none' || platform != 'none') {
-                queryText += ` OR `
-            }
-        }
-        if (players != 'none') {
-            queryText += `players='` + players + `'`
-            if (platform != 'none') {
-                queryText += ` OR `
-            }
-        }
-        if (platform != 'none') {
-            queryText += `platform='` + platform + `'`
-        }
-    } else {
-        queryText = `SELECT * FROM games WHERE `
-        if (genre != 'none') {
-            queryText += `genre='` + genre + `'`
-            if (players != 'none' || platform != 'none') {
-                queryText += ` AND `
-            }
-        }
-        if (players != 'none') {
-            queryText += `players='` + players + `'`
-            if (platform != 'none') {
-                queryText += ` AND `
-            }
-        }
-        if (platform != 'none') {
-            queryText += `platform='` + platform + `'`
-        }
-        console.log("Text is: " + queryText);
-
-        /*`SELECT * 
-        FROM games 
-        WHERE genre ='` + genre + 
-        `' AND players='` + players + 
-        `' AND platform='` + platform + 
-        `'`;*/
-    }
-
->>>>>>> 4b734f3cf8b205abf9a075b480b8c0e1a7770db2
     pool.query(queryText, (err, result) => {
         if (err) {
             return console.error('error in getAdvancedSearchResults', err)
@@ -268,29 +199,6 @@ exports.getCart = (req, res, next) => {
                             });
                         }
 
-<<<<<<< HEAD
-    req.user.getCart()
-        .then(cart => {
-            if (!cart) {
-                return req.user.createCart();
-            }
-            return cart;
-        })
-        .then(cart => {
-            return cart.getGames()
-                .then(cartGames => {
-                    res.render("shop/cart", {
-                        products: cartGames,
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        })
-        .catch(err => {
-            console.log(err);
-        })
-=======
                     })
 
             }
@@ -316,7 +224,6 @@ exports.getCart = (req, res, next) => {
     // .catch(err => {
     //   console.log(err);
     // })
->>>>>>> 4b734f3cf8b205abf9a075b480b8c0e1a7770db2
 }
 
 /**
@@ -327,9 +234,6 @@ exports.getCart = (req, res, next) => {
 exports.addToCart = (req, res, next) => {
     //console.log('add-to-cart, req.body', req.body);
     const { game_id } = req.body;
-<<<<<<< HEAD
-
-=======
     const userId = req.user.id;
     console.log('user_id:', req.user.id);
     const queryString_getCart = `
@@ -415,7 +319,6 @@ exports.addToCart = (req, res, next) => {
             console.log(err)
             res.redirect('/');
         })
->>>>>>> 4b734f3cf8b205abf9a075b480b8c0e1a7770db2
 
 
     /**
@@ -433,39 +336,6 @@ exports.addToCart = (req, res, next) => {
 
     // const user = req.user;
 
-<<<<<<< HEAD
-    user.getCart()
-        .then(cart => {
-            if (!cart) {
-                return user.createCart();
-            }
-            return cart;
-        })
-        .then(cart => {
-            fetchedCart = cart;
-            return cart.getGames({ where: { game_id: game_id } })
-        })
-        .then(games => {
-            let game;
-            if (games.length > 0) {
-                game = games[0];
-            }
-            if (game) {
-                const oldQuantity = game.cartItem.quantity;
-                newQuantity = oldQuantity + 1;
-                return game;
-            }
-            return Game.findByPk(game_id);
-        })
-        .then(game => {
-            return fetchedCart.addGame(game, {
-                through: { quantity: newQuantity }
-            })
-        })
-        .then(() => {
-            res.redirect('/shop/cart');
-        })
-=======
     // user.getCart()
     //     .then(cart => {
     //         if (!cart) {
@@ -497,155 +367,4 @@ exports.addToCart = (req, res, next) => {
     //     .then(() => {
     //         res.redirect('/shop/cart');
     //     })
->>>>>>> 4b734f3cf8b205abf9a075b480b8c0e1a7770db2
-}
-
-exports.testAddToCart = (req, res, next) => {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    console.log(`
-    
-    
-    
-    
-    
-    
-    The body is: ` + req.body);
-    console.log('The req.body.game_id is: ' + JSON.stringify(req.body.game_id));
-    console.log('The req.user.username is: ' + req.user.username);
-    const num = req.user.user_id
-    checkForTestCart = `SELECT * FROM testcarts WHERE user_id=` + req.user.id;
-    createTestCart = `INSERT INTO testcarts(user_id) VALUES(` + req.user.id + `)`;
-    checkForTestGame = `SELECT * FROM games WHERE game_id=` + req.body.game_id;
-    var getTestCart = `SELECT * FROM testcarts WHERE user_id=` + req.user.id;
-
-
-    var usid =  req.user.user_id;
-    var gmid = req.body.game_id;
-    
-
-    //const num = req.user.user_id
-    //getTestCart = `SELECT * FROM testcarts WHERE user_id=` + num;
-
-    var createdCart
-    var fetchedCart;
-    var newQuantity = 1;
-    var cart;
-    queries = [{getTestCart}]
-
-    pool.query(checkForTestCart)
-        .then(testCart => {
-            
-            if (typeof testCart.rows[0] === 'undefined') {                   
-                    console.log("createTestCart: " + createTestCart);
-                    pool.query(createTestCart).then(created => {
-                                                                           
-                    })    
-                    .catch(err => {
-                        return console.error(err);
-                    });                                   
-                    //return createdCart;
-            }else{
-                return testCart
-            }
-            return testCart
-            
-        }).then(testCart =>{
-            if (typeof testCart.rows[0] === 'undefined') {  
-                console.log("get Tests cart: " + getTestCart);
-                return pool.query(getTestCart)/*.then(testsCart =>{
-                    console.log('in get');      
-                    console.log('testsCart: ' + testsCart);
-                    console.log('testsCart.rows is: ' + testsCart.rows);
-                    console.log('testsCart.rows[0] is: ' + testsCart.rows[0]);    
-                    return testsCart.rows
-                    
-                }).catch(err => {        
-                    console.log('uh uh  it happened here');                    
-                    return console.error(err);
-                })*/
-            }
-            console.log("expect to gt here??");
-            return testCart   
-        })
-        .then(cart => {
-            console.log('the cart.rows[0].cart_id is: ' + cart.rows[0].cart_id);
-            fetchedCart = cart
-            /*console.log('fetched cart is: ' + fetchedCart);
-            console.log('fetchedCart.rows is: ' + fetchedCart.rows);
-            console.log('fetchedCart.rows[0] is: ' + fetchedCart.rows[0]);*/
-            console.log("fetchedCart.rows[0].cart_id ===== " + fetchedCart.rows[0].cart_id);            
-            ran = pool.query(`SELECT * FROM testcartitems WHERE cart_id=` + fetchedCart.rows[0].cart_id)            
-            return ran;
-        })
-        .then(cartItem => {
-            console.log(JSON.toString(cartItem));
-            console.log("got here");
-            let item;
-            if (cartItem.length > 0) {
-                item = carItem.rows[0];
-            }
-            if (item) {
-                const oldQuantity = item.quantity;
-                newQuantity = oldQuantity + 1;
-                return item;
-            
-            }
-            //console.log("cartItem " + cartItem.game_id);
-            //console.log("cartItem[0] " + cartItem[0].game_id);
-            console.log("cartItem.game_id is " + cartItem.game_id);
-            console.log("cartItem.rows is " + cartItem.rows.game_id);
-            // console.log("cartItem.rows[0] is " + cartItem.rows[0].game_id);
-            console.log("LOL THIS WAS FUCKIN IT " + gmid);
-            
-            return pool.query(`SELECT * FROM games WHERE game_id=` + gmid);
-        })
-        .then(game => {     
-            // how do i get the 
-            //var cart = getCartById(usid);    
-            console.log("usid is: " + usid);
-            pool.query('SELECT * FROM testcarts WHERE user_id=' + usid).then(cart => {
-                console.log("carrrrrrr is " + cart);
-                console.log("faulty string is : " + `INSERT INTO testcartitems(cart_id, game_id, quantity) VALUES(`+ cart + `,` + gmid/*fetchedCart.game_id*/ +`, ` + newQuantity +`)`);
-                return pool.query(`INSERT INTO testcartitems(cart_id, game_id, quantity) VALUES(`+ cart + `,` + gmid/*fetchedCart.game_id*/ +`, ` + newQuantity +`)`)
-            }).catch(err => {
-                return console.error(err);
-            }); 
-            
-            console.log("carrrrrrr is " + cart);
-            console.log("faulty string is : " + `INSERT INTO testcartitems(cart_id, game_id, quantity) VALUES(`+ cart + `,` + gmid/*fetchedCart.game_id*/ +`, ` + newQuantity +`)`);
-            //return pool.query(`INSERT INTO testcartitems(cart_id, game_id, quantity) VALUES(`+ cart + `,` + gmid/*fetchedCart.game_id*/ +`, ` + newQuantity +`)`)
-        })
-        .then(() => {
-            res.redirect('/shop/cart');
-        })
-        .catch(err => {
-            return console.error(err);
-        });
-
-    /*pool.query(createTestCart, (err, result) => {
-        if (err) {
-            if (err.code == 23505) {
-                console.log("Is key error!");
-                pool.query(`INSERT INTO testcarts(user_id) VALUES(1)`, (err, result) => {
-                    return console.error('INNER ERROR!!!!!!!!!!!!!!!!', err)
-                })
-            }
-            return console.error('error in getGamesByGenre', err)
-        }
-        res.redirect('/shop/cart');
-    })*/
-}
-
-getCartById = (id) => {
-    console.log("method");
-    pool.query('SELECT * FROM testcarts WHERE user_id=' + id).then(cart => {
-        console("in method " + cart.rows[0].cart_id);
-        console.log("carrrrrrr is " + cart);
-    }).catch(err => {
-        return console.error(err);
-    }); 
-}
-
-getAdvancedSearchString = (genre, players, platform) => {
-
 }
