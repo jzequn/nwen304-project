@@ -5,8 +5,9 @@ const express = require('express');
 const router = express.Router();
 
 const adminController = require('../controllers/admin');
+const {ensureAuthenticated}= require('../util/auth')
 
-router.get('/admin/home', adminController.getAdmin); // home page for admin
+router.get('/admin/home', ensureAuthenticated, adminController.getAdmin); // home page for admin
 
 router.get('/admin/get-user', adminController.getUserByID); // shows one user
 

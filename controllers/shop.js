@@ -1,5 +1,5 @@
 /**
- * Author: Zequn Jiang
+ * Author: Zequn Jiang and Antony Helsby
  * render shop and cart page
  */
 const path = require('path');
@@ -365,13 +365,33 @@ exports.addToCart = (req, res, next) => {
             })
         })
         .then(() => {
-            res.redirect('/shop/cart');
+            res.redirect('shop/cart');
         })
 }
 
 exports.postCheckout = (req, res, next) => {
     
-    console.log("Got in hereerereere!");
-    console.log("user: " + req.user.id);
-    res.render('/shop/checkout/');
+    getTheCart = `SELECT * FROM carts WHERE user_id=${req.user.id}`
+    console.log("THE GET IS: " + getTheCart);
+    listofitems = `SELECT * FROM cartitems WHERE`        
+    var price = 0;    
+
+    pool.query(getTheCart)
+    .then(cart => {
+        return pool.query(`SELECT * FROM cartitems WHERE cart_id=${cart.cart_id}`)
+    })
+    .then(items => {
+        return pool.query(`SELECT SUM(games.price) AS totalPrice FROM games JOIN cartItems on games.game_id=cartitems.game_id`)
+    })
+    .then(totalPrice =>{
+        price = totalPrice
+        return price
+    })
+    .then(totalPrice => {
+        pool.query(`INSERT INTO orders(user_id, order_date, price, deliv_addr) VALUES(${req.user.id}, NOW(), ${totalPrice}, '321 Fill-in street, placeholder town')`)
+    }).catch(err => {
+        console.log(err);
+      })
+
+    res.render('shop/checkout');
 }

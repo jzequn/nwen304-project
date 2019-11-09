@@ -7,7 +7,7 @@ const {ensureAuthenticated}= require('../util/auth')
 
 /**
  * route: '/shop/cart', '/shop/add-to-cart'
- * Author: Zequn Jiang
+ * Author: Zequn Jiang and Antony Helsby
  */
 router.get('/shop/cart', ensureAuthenticated, shopController.getCart);
 router.post('/shop/add-to-cart',ensureAuthenticated, shopController.addToCart);

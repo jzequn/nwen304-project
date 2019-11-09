@@ -2,22 +2,22 @@
 pool = require('../../util/postgres');
 
 
-exports.getOrders = (req, res, next) => {
-queryText = 'SELECT * FROM orders';
+exports.getCartItems = (req, res, next) => {
+queryText = 'SELECT * FROM cart-items';
 
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to fetch orders',
+                message: 'Failed to fetch cart-items',
             })
         } else if(!result){
             res.status(404).json({
-                message: 'No orders found!'
+                message: 'No cart-items found!'
             })
         }
         else{
             res.status(200).json({
-                message: 'Fetching orders was successful.',
+                message: 'Fetching cart-items was successful.',
                 result: result
             })
         }        
@@ -25,36 +25,24 @@ queryText = 'SELECT * FROM orders';
     })
 }
 
-exports.getOrderByID = (req, res, next) => {
+exports.getCartItemByID = (req, res, next) => {
 
-    const orderID  = req.params.orderID;
+    const cartItemID  = req.params.cart-itemID;
     const queryText = 
-    `SELECT
-    u.username, 
-    o.user_id,
-    o.order_id, 
-    o.order_date, 
-    o.total_price, 
-    o.deliv_addr 
-    FROM 
-    orders AS o 
-    JOIN users AS u 
-    ON u.id = o.user_id
-    WHERE o.order_id=` + orderID;
+    `SELECT * FROM cart-items WHERE cart_id=` + cartItemID;
     pool.query(queryText, (err, result) => {
-        if(err){
-            console.error('error in getOrderByID', err)
+        if(err){            
             res.status(500).json({
-                message: 'Failed to fetch order',
+                message: 'Failed to fetch cart-item',
             })
         } else if(!result){
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No cart-item found!'
             })
         }
         else{
             res.status(200).json({
-                message: 'Fetching order was successful.',
+                message: 'Fetching cart-item was successful.',
                 result: result
             })
         }        
@@ -62,22 +50,20 @@ exports.getOrderByID = (req, res, next) => {
     })
 }
 
-exports.postOneOrder = (req, res, next) => {
+exports.postOneCartItem = (req, res, next) => {
 
-    const { user_id, order_date, total_price, deliv_addr } = req.body;
+    const { cart_id, user_id, quantity } = req.body;
     const queryText = 
-    `INSERT INTO
-    orders(user_id, order_date, total_price, deliv_addr) 
-    VALUES(` + user_id + `, '` + order_date + `', ` + total_price + `, '` + deliv_addr + `');`
+    `INSERT INTO orders(cart_id, user_id, quantity) VALUES(` + cart_id + `, ` + user_id + `, ` +  quantity + `)`
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to post order',
+                message: 'Failed to post cart-item',
             })
         } 
         else {
             res.status(201).json({
-                message: 'Posting order was successful.',
+                message: 'Posting cart-item was successful.',
                 result: result
             })
         }        
@@ -85,32 +71,32 @@ exports.postOneOrder = (req, res, next) => {
     })
 }
 
-exports.deleteOrderByID = (req, res, next) => {
+exports.deleteCartItemByID = (req, res, next) => {
 
-    const orderID = req.params.orderID;
-    const queryText = `SELECT * FROM orders WHERE order_id = ` + orderID;
-    const deleteText = `DELETE FROM orders WHERE order_id = ` + orderID;
+    const cartItemID = req.params.cart-itemID;
+    const queryText = `SELECT * FROM cart-items WHERE id = ` + cart-itemID;
+    const deleteText = `DELETE FROM cart-items WHERE id = ` + cart-itemID;
 
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to find order',
+                message: 'Failed to find cart-item',
             })
         } 
         else if (!result) {
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No cart-item found!'
             })
         } else {
             pool.query(deleteText, (err, result) => {
                 if(err){                    
                     res.status(500).json({
-                        message: 'Failed to delete order',
+                        message: 'Failed to delete cart-item',
                     })
                 } 
                 else {
                     res.status(200).json({
-                        message: 'Deleting order was successful.',
+                        message: 'Deleting cart-item was successful.',
                         result: result
                     })
                 }        
@@ -121,32 +107,32 @@ exports.deleteOrderByID = (req, res, next) => {
     })    
 }
 
-exports.putOneOrderByID = (req, res, next) => {
-    const orderID  = req.params.orderID;
-    const { user_id, order_date, total_price, deliv_addr } = req.body;    
-    const queryText = `SELECT * FROM orders WHERE order_id = ` + orderID;
-    const updateText = `UPDATE orders SET user_id=` + user_id +  `, order_date='` + order_date + `', total_price=` + total_price +  `, deliv_addr='` + deliv_addr +  `' WHERE order_id = ` + orderID;
+exports.putOneCartItemByID = (req, res, next) => {
+    const cartItemID  = req.params.cart-itemID;
+    const { cart_id, user_id, quantity } = req.body;   
+    const queryText = `SELECT * FROM cart-items WHERE id = ` + cartItemID;
+    const updateText = `UPDATE cart-items SET cart_id=` + cart_id +  `, user_id=` + user_id +  `, quantity=` + quantity + ` WHERE id = ` + cartItemID;
 
     pool.query(queryText, (err, result) => {
         if(err){            
             res.status(500).json({
-                message: 'Failed to complete query',
+                message: 'Failed to complete cart-item',
             })
         } 
         else if (!result) {
             res.status(404).json({
-                message: 'No order found!'
+                message: 'No cart-item found!'
             })
         } else {
             pool.query(updateText, (err, result) => {
                 if(err){                    
                     res.status(500).json({
-                        message: 'Failed to update order',
+                        message: 'Failed to update cart-item',
                     })
                 } 
                 else {
                     res.status(200).json({
-                        message: 'Updating order was successful.',
+                        message: 'Updating cart-item was successful.',
                         result: result
                     })
                 }        
