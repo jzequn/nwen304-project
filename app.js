@@ -1,5 +1,6 @@
 /**
  * App.js - server setup
+ * This page is created by Zequn Jiang
  * Author: Zequn Jiang
  */
 require('dotenv').config()
@@ -40,7 +41,7 @@ app.set('views', 'views')
 
 // serve javascript files and css files
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
@@ -66,9 +67,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 // connect flash 
 app.use(flash())
-//passport 
-app.use(passport.initialize())
-app.use(passport.session())
+
 // Global constants
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
@@ -103,28 +102,32 @@ const port = process.env.PORT || 3000;
 
 
 // Database association for sequelize
-const Game = require('./models/game.model');
-const User = require('./models/user.model')
-const Cart = require('./models/cart.model')
-const CartItem = require('./models/cart-item.model')
-Game.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Game);
-User.hasOne(Cart);
-Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-Cart.belongsToMany(Game, { through: CartItem, onDelete: 'CASCADE' });
-Game.belongsToMany(Cart, { through: CartItem, onDelete: 'CASCADE' });
+// const Game = require('./models/game.model');
+// const User = require('./models/user.model')
+// const Cart = require('./models/cart.model')
+// const CartItem = require('./models/cart-item.model')
+// Game.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+// User.hasMany(Game);
+// User.hasOne(Cart);
+// Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+// Cart.belongsToMany(Game, { through: CartItem, onDelete: 'CASCADE' });
+// Game.belongsToMany(Cart, { through: CartItem, onDelete: 'CASCADE' });
 
 
 // connect to heroku PostgreSQL, start listening the app on port
-const sequelize = require('./util/database')
-sequelize
-  // .sync({ force: true })
-  .sync()
-  .then(result => {
+// const sequelize = require('./util/database')
+// sequelize
+//   // .sync({ force: true })
+//   .sync()
+//   .then(result => {
+//     app.listen(port, () => {
+//       console.log(`App is running on port ${port}`)
+//     });
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+
     app.listen(port, () => {
       console.log(`App is running on port ${port}`)
     });
-  })
-  .catch(err => {
-    console.log(err)
-  })

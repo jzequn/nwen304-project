@@ -3,7 +3,7 @@
  * import passport, bcrypt, user model, express-validator
  */
 const { check, validationResult } = require('express-validator');
-const User = require('../models/user.model');
+// const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const pool = require('../util/postgres')
@@ -101,7 +101,7 @@ exports.postRegister = (req, res, next) => {
     } else {
 
         console.log('input email:',InputEmail)
-        const queryString_getUser = `select * from users where email = '${InputEmail}'`;
+        const queryString_getUser = `select * from users1 where email = '${InputEmail}'`;
         pool.query(queryString_getUser)
             .then(result => {
                 if (result.rows.length > 0) {
@@ -117,9 +117,12 @@ exports.postRegister = (req, res, next) => {
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(InputPassword, salt, (err, hash) => {
                             if (err) throw err;
+                            console.log('username,inputemail,hash',Username,InputEmail,hash);
                             const queryString_postUser = `
-                               insert into Users(username,email,password) values ('${Username}','${InputEmail}','${hash}')
+                               insert into Users1(username,email,user_password)
+                               values ('${Username}','${InputEmail}','${hash}')
                             `;
+
                             pool.query(queryString_postUser)
                                 .then(result => {
                                     req.flash(
@@ -236,6 +239,15 @@ exports.getChangePassword = (req, res, next) => {
 
 }
 
+
+/**
+ * Author: brody, co-author zequn jiang
+ * 
+ * zequn's work
+ * start from         
+ *      bcrypt.compare(oldpassword, user.password, (err, isMatch) => {
+ *      ....
+ */
 exports.postChangePassword = (req, res, next) => {
     const { oldpassword, newpassword, repeatpassword } = req.body;
     const errors = [];
@@ -303,21 +315,46 @@ exports.postChangePassword = (req, res, next) => {
             repeatpassword
         });
     } else {
-        bcrypt.compare(oldpassword, user.password, (err, isMatch) => {
+        bcrypt.compare(oldpassword, user.user_password, (err, isMatch) => {
             console.log('old password', oldpassword)
+            console.log('user',user)
+            console.log('user password',user.user_password)
             if (err) throw err;
             if (isMatch) {
                 bcrypt.genSalt(10, (err, salt) => {
                     console.log('newpassword', newpassword)
                     bcrypt.hash(newpassword, salt, (err, hash) => {
                         if (err) throw err;
-                        user.password = hash;
-                        user.save();
-                        req.flash(
-                            'success_msg',
-                            'You have changed the password and can log in'
-                        );
-                        res.redirect('/users/login');
+                        // user.password = hash;
+                        // user.save();
+                        console.log('hash',hash);
+                        const queryString = `
+                            update users1
+                            set user_password = '${hash}'
+                            where id = ${user.id}
+                        `;
+                        pool.query(queryString)
+                        .then(result=>{
+                            console.log(' testting update users1')
+                            req.flash(
+                                'success_msg',
+                                'You have changed the password and can log in'
+                            );
+                            res.redirect('/users/login');
+                        })
+                        .catch(err=>{
+                            console.log(err)    
+                            req.flash(
+                                'error_msg',
+                                'Change password fail'
+                            );
+                            res.redirect('/users/login');
+                        })
+                        // req.flash(
+                        //     'success_msg',
+                        //     'You have changed the password and can log in'
+                        // );
+                        // res.redirect('/users/login');
                     });
                 });
             }
