@@ -28,6 +28,9 @@ const User = sequelize.define('user', {
         type: Sequelize.DECIMAL,
         unique: true
     }
+},{
+    //disable createdAt and updatedAt timestamp
+    timestamps: false
 })
 
 module.exports = User;

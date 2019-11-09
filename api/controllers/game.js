@@ -1,3 +1,4 @@
+const pool = require('../../util/postgres');
 /**
  * Module: game route (restful api)
  * Author: Zequn Jiang
@@ -9,26 +10,25 @@ const Game = require('../../models/game.model')
  * Author: Zequn Jiang
  */
 exports.getGames = (req, res, next) => {
-    Game.findAll()
-        .then(games => {
-            if (!games) {
-                res.status(404).json({
-                    message: 'No games found!'
-                })
-                // next()
-            } else {
+    pool.query('select * from games')
+        .then(result => {
+            if (result.rows.length > 0) {
                 res.status(200).json({
-                    message: 'Fetch game list successfully',
-                    games: games
+                    message: 'Fetch games successfully',
+                    games: result.rows
+                })
+            } else {
+                res.status(404).json({
+                    message: 'No games found!',
                 })
             }
-
         })
         .catch(err => {
             res.status(500).json({
-                message: 'Fetch game list fail!',
+                message: 'server error'
             })
         })
+
 }
 
 
@@ -38,28 +38,26 @@ exports.getGames = (req, res, next) => {
  */
 exports.getGameById = (req, res, next) => {
     const gameId = req.params.gameId;
-    Game.findByPk(gameId)
-        .then(game => {
-            if (!game) {
-                res.status(404).json({
-                    message: 'No game found!'
-                })
-                // next()
-            } else {
+    const queryString = `SELECT * FROM games WHERE games.game_id = ${gameId}`;
+    pool.query(queryString)
+        .then(result => {
+            if (result.rows.length > 0) {
                 res.status(200).json({
                     message: 'Fetch game successfully',
-                    game: game
+                    game: result.rows
+                })
+            } else {
+                res.status(404).json({
+                    message: 'No game found!',
                 })
             }
-
         })
         .catch(err => {
             res.status(500).json({
-                message: 'Fetch game fail!',
+                message: 'Error executing query',
             })
         })
 }
-
 
 
 /**
@@ -67,29 +65,32 @@ exports.getGameById = (req, res, next) => {
  * Author: Zequn Jiang
  */
 exports.postOneGame = (req, res, next) => {
-
     // add error handle, if no info is provided!!
-    const { title, price, description, num_in_stock, genre, players, platform } = req.body;
 
-    Game.create({
-        title: title,
-        price: price,
-        description: description,
-        num_in_stock: num_in_stock,
-        genre: genre,
-        players: players,
-        platform: platform
-    })
-        .then(game => {
-            res.status(201).json({
-                message: 'Created game successfully',
-                game: game
+    const { title, price, description, num_in_stock, genre, players, platform } = req.body;
+    console.log('req.body', req.body)
+    const queryString = `
+        insert into games (title,price,description,num_in_stock,genre,players,platform)
+        values('${title}',${price},'${description}',${num_in_stock},'${genre}','${players}','${platform}')
+    `;
+    console.log('querySTring', queryString)
+    pool.query(queryString)
+        .then(result => {
+            res.status(200).json({
+                message: 'Post one game successfully!',
+                game: {
+                    title: title,
+                    price: price,
+                    description: description,
+                    num_in_stock: num_in_stock,
+                    genre: genre,
+                    players: players,
+                    platform: platform
+                }
             })
-        })
-        .catch(err => {
-            // throw err;
+        }).catch(err => {
             res.status(500).json({
-                message: 'Create game fail!',
+                message: 'Error executing query',
             })
         })
 }
@@ -101,27 +102,21 @@ exports.postOneGame = (req, res, next) => {
  * Author: Zequn Jiang
  */
 exports.deleteGameById = (req, res, next) => {
+    // How to prevent sql injection? How to handling flexible inputs
     const gameId = req.params.gameId;
-    let game;
-    Game.findByPk(gameId)
-        .then(game => {
-            if (!game) {
-                res.status(404).json({
-                    message: 'No game found!'
-                })
-            } else {
-                game = game
-                game.destroy();
-                res.status(200).json({
-                    message: 'Delete game successfully',
-                    deletedGame: game
-                })
-            }
-
+    const queryString = `
+        delete from games where game_id = ${gameId}
+    `;
+    pool.query(queryString)
+        .then(result => {
+            res.status(200).json({
+                message: 'Delete game successfully!',
+                game_id: gameId
+            })
         })
         .catch(err => {
             res.status(500).json({
-                message: 'Delete game fail!',
+                message: 'Error executing query',
             })
         })
 }
@@ -132,54 +127,71 @@ exports.deleteGameById = (req, res, next) => {
  */
 exports.putGameById = (req, res, next) => {
     const { gameId } = req.params;
-    const { title, price, description, num_in_stock } = req.body;
-    console.log('params', params)
-    console.log('req.bobdy', req.bobdy)
-    let game;
-    Game.findByPk(gameId)
-        .then(game => {
-            if (!game) {// if no game found! create one
-                return Game.create({
-                    title: title,
-                    price: price,
-                    description: description,
-                    num_in_stock: num_in_stock
-                }).then(game => {
-                    game = game;
-                    return game;
-                })
-                    .catch(err => {
-                        res.status(500).json({
-                            message: 'No game found and create game fail!',
-                            game: game
+    const { title, price, description, num_in_stock, genre, players, platform } = req.body;
+
+    const queryString_get = `SELECT * FROM games WHERE games.game_id = ${gameId}`;
+    const queryString_update = `
+        update games
+        set title = '${title}', price = ${price}, description = '${description}',num_in_stock = ${num_in_stock}, genre='${genre}',players='${players}',platform='${platform}'
+        where game_id = ${gameId}
+    `;
+    const queryString_insert = `
+        insert into games (title,price,description,num_in_stock,genre,players,platform)
+        values('${title}',${price},'${description}',${num_in_stock},'${genre}','${players}','${platform}')
+    `;
+
+
+
+    pool.query(queryString_get)
+        .then(result => {
+            if (result.rows.length > 0) {
+                //if game exist, update game
+                pool.query(queryString_update)
+                    .then(result => {
+                        res.status(200).json({
+                            message: 'Update game successfully!',
+                            game: {
+                                title: title,
+                                price: price,
+                                description: description,
+                                num_in_stock: num_in_stock,
+                                genre: genre,
+                                players: players,
+                                platform: platform
+                            }
                         })
                     })
-            } else {// edit this game
-                // only update related info if it is they are provided
-                if (title) {
-                    game.title = title;
-                }
-                if (description) {
-                    game.description = description;
-                }
-                if (price) {
-                    game.price = price
-                }
-                if (num_in_stock) {
-                    game.num_in_stock = num_in_stock;
-                }
-                return game.save();
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'Error executing query',
+                        })
+                    })
+            } else {
+                //if game do not exist, create one
+                pool.query(queryString_insert)
+                    .then(result => {
+                        res.status(200).json({
+                            message: 'Game do not exist, create one game successfully!',
+                            game: {
+                                title: title,
+                                price: price,
+                                description: description,
+                                num_in_stock: num_in_stock,
+                                genre: genre,
+                                players: players,
+                                platform: platform
+                            }
+                        })
+                    }).catch(err => {
+                        res.status(500).json({
+                            message: 'Error executing query',
+                        })
+                    })
             }
-        })
-        .then(game => {
-            res.status(201).json({
-                message: 'Put game successfully',
-                game: game
-            })
         })
         .catch(err => {
             res.status(500).json({
-                message: 'Put game fail!',
+                message: 'Error executing query',
             })
         })
 }

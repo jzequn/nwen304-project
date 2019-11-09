@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const pool = require('../util/postgres')
 // const pool = require('../util/database'); // When not using Sequelize
 
 /**
@@ -87,9 +88,9 @@ exports.postRegister = (req, res, next) => {
 
     if (errors.length > 0) {
         // console.log('errors.length> 0')
-        errors.map(err => {
+        // errors.map(err => {
             // console.log("err msg - ", err.msg)
-        })
+        // })
         res.render('users/register', {
             errors,
             Username,
@@ -98,45 +99,90 @@ exports.postRegister = (req, res, next) => {
             RepeatPassword
         });
     } else {
-        User.findOne({ where: { email: InputEmail } }).then(user => {
-            //console.log(user)
-            if (user) {
-                errors.push({ msg: 'Email already exists' });
-                // console.log("Email already exists", console.log(user.email, 'inputEmail', InputEmail, 'InputPassword', InputPassword))
-                res.render('users/register', {
-                    errors,
-                    Username,
-                    InputEmail,
-                    InputPassword,
-                    RepeatPassword
-                });
-            } else {
-                bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(InputPassword, salt, (err, hash) => {
-                        if (err) throw err;
-                        // console.log('hash:', hash, 'InputPassword:', InputPassword)
-                        // InputPassword = hash;
 
-                        User.create({
-                            username: Username,
-                            email: InputEmail,
-                            password: hash
-                        })
-                            .then(result => {
-                                req.flash(
-                                    'success_msg',
-                                    'You are now registered and can log in'
-                                );
-                                // console.log('user msg:', req.flash.success_msg)
-                                res.redirect('/users/login');
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
+        console.log('input email:',InputEmail)
+        const queryString_getUser = `select * from users where email = '${InputEmail}'`;
+        pool.query(queryString_getUser)
+            .then(result => {
+                if (result.rows.length > 0) {
+                    errors.push({ msg: 'Email already exists' });
+                    res.render('users/register', {
+                        errors,
+                        Username,
+                        InputEmail,
+                        InputPassword,
+                        RepeatPassword
                     });
-                });
-            }
-        });
+                } else {
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(InputPassword, salt, (err, hash) => {
+                            if (err) throw err;
+                            const queryString_postUser = `
+                               insert into Users(username,email,password) values ('${Username}','${InputEmail}','${hash}')
+                            `;
+                            pool.query(queryString_postUser)
+                                .then(result => {
+                                    req.flash(
+                                        'success_msg',
+                                        'You are now registered and can log in'
+                                    );
+                                    res.redirect('/users/login');
+                                })
+                                .catch(err=>{
+                                    console.log('fail to create user',err);
+                                })
+                        });
+                    });
+                }
+
+            })
+            .catch(err => {
+
+                res.status(500).json({
+                    message: 'Fail to fetch user'
+                })
+
+            })
+
+        // User.findOne({ where: { email: InputEmail } }).then(user => {
+        //     //console.log(user)
+        //     if (user) {
+        //         errors.push({ msg: 'Email already exists' });
+        //         // console.log("Email already exists", console.log(user.email, 'inputEmail', InputEmail, 'InputPassword', InputPassword))
+        //         res.render('users/register', {
+        //             errors,
+        //             Username,
+        //             InputEmail,
+        //             InputPassword,
+        //             RepeatPassword
+        //         });
+        //     } else {
+        //         bcrypt.genSalt(10, (err, salt) => {
+        //             bcrypt.hash(InputPassword, salt, (err, hash) => {
+        //                 if (err) throw err;
+        //                 // console.log('hash:', hash, 'InputPassword:', InputPassword)
+        //                 // InputPassword = hash;
+
+        //                 User.create({
+        //                     username: Username,
+        //                     email: InputEmail,
+        //                     password: hash
+        //                 })
+        //                     .then(result => {
+        //                         req.flash(
+        //                             'success_msg',
+        //                             'You are now registered and can log in'
+        //                         );
+        //                         // console.log('user msg:', req.flash.success_msg)
+        //                         res.redirect('/users/login');
+        //                     })
+        //                     .catch(err => {
+        //                         console.log(err)
+        //                     })
+        //             });
+        //         });
+        //     }
+        // });
     }
 
 }
