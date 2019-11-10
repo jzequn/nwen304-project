@@ -28,7 +28,7 @@ Our project is host on heroku, click [here](https://nwen304-team-project.herokua
 
 ## cURL
 
-[Find more here](assets/curl.md)
+[Find more here](assets/curl.md)</br>
 [More curl here](assets/Curl(Antony).md)
 
 ## Small things to be aware of
